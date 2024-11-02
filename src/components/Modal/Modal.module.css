@@ -1,0 +1,44 @@
+
+.Modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    overflow: auto;
+    background-color: var(--color-modal-bg);
+    margin: 1rem;
+    padding: 40px 40px 60px 40px;
+    border-radius: 40px;
+    width: 640px;
+    max-height: 100vh;
+    min-height: 100px;
+    height: min-content;
+    z-index: 10;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ModalHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    height: 64px;
+    width: 100%;
+}
+
+.ModalHeaderTitle {
+
+}
+
+.ModalHeaderClose {
+    cursor: pointer;
+}
+
+.ModalHeaderClose:hover {
+    opacity: .7;
+}

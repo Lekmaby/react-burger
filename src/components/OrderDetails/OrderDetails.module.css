@@ -1,0 +1,16 @@
+.OrderDetailsStatus {
+    width: 120px;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.OrderDetailsStatusIcon{
+    width: 48px;
+    height: 48px;
+}
