@@ -7,12 +7,12 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay.tsx";
 const modalRoot: HTMLElement | null = document.getElementById("react-modals");
 
 type ModalProps = {
-    header?: string;
+    title?: string;
     children: ReactNode;
     onClose: () => void
 };
 
-const Modal = ({header = '', children, onClose}: ModalProps) => {
+const Modal = ({title = '', children, onClose}: ModalProps) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -37,7 +37,7 @@ const Modal = ({header = '', children, onClose}: ModalProps) => {
         (
             <>
                 <div className={style.Modal}>
-                    <ModalHeader onClose={onClose}>{header}</ModalHeader>
+                    <ModalHeader onClose={onClose}>{title}</ModalHeader>
                     {children}
                 </div>
 

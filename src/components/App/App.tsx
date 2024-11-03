@@ -9,6 +9,7 @@ import AppError from "../AppError/AppError.tsx";
 import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
 import OrderDetails from "../OrderDetails/OrderDetails.tsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.tsx";
+import Modal from "../Modal/Modal.tsx";
 
 function App() {
     const [ingredients, setIngredients] = React.useState<Ingredient[]>([])
@@ -21,8 +22,20 @@ function App() {
     useEffect(() => {
         setLoading(true);
         fetch(config.url)
-            .then(res => res.json())
-            .then(data => setIngredients(data.data))
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                
+                return Promise.reject(`Ошибка ${res.status}`);
+            })
+            .then(data => {
+                if (data.success) {
+                    setIngredients(data.data)
+                }
+                
+                return Promise.reject(`Ошибка в данных`);
+            })
             .catch(error => setError(error.message))
             .finally(() => setLoading(false));
     }, []);
@@ -39,7 +52,7 @@ function App() {
     return (
         <>
             <AppHeader/>
-            
+
             <main className={style.main}>
                 <AppLoadingIndicator loading={loading}/>
 
@@ -64,19 +77,26 @@ function App() {
             </main>
 
             {showOrderDetails &&
-                <OrderDetails
+                <Modal
                     onClose={() => {
                         setShowOrderDetails(false);
-                    }}/>
+                    }}
+                >
+                    <OrderDetails/>
+                </Modal>
             }
 
             {showIngredientDetails && ingredient &&
-                <IngredientDetails
-                    ingredient={ingredient}
+                <Modal
+                    title="Детали ингредиента"
                     onClose={() => {
                         setShowIngredientDetails(false);
                         setIngredient(undefined);
-                    }}/>
+                    }}
+                >
+                    <IngredientDetails ingredient={ingredient}/>
+                </Modal>
+                
             }
         </>
     )

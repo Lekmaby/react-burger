@@ -1,7 +1,7 @@
 import style from './BurgerConstructor.module.css';
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Ingredient} from "../../types/ingredient.ts";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {IngredientTypeEnum} from "../../enum/ingredient-type.enum.ts";
 import BurgerConstructorSummary from "./BurgerConstructorSummary.tsx";
 
@@ -27,6 +27,12 @@ const BurgerConstructor = ({ingredients, onSendOrder}: BurgerConstructorProps) =
         setPrice((topIngredient?.price ?? 0) + (bottomIngredient?.price ?? 0) + middleIngredients.reduce((a: number, x: Ingredient) => a + x.price, 0));
     }, [topIngredient, bottomIngredient, middleIngredients]);
 
+    const topIngredientName: string = useMemo(() =>
+        topIngredient?.name + ' (верх)', [topIngredient]);
+
+    const bottomIngredientName: string = useMemo(() =>
+        bottomIngredient?.name + ' (низ)', [bottomIngredient]);
+
     return (
         <section className={style.section}>
             <div className="mt-25">
@@ -37,7 +43,7 @@ const BurgerConstructor = ({ingredients, onSendOrder}: BurgerConstructorProps) =
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
-                                text={topIngredient.name}
+                                text={topIngredientName}
                                 price={topIngredient.price}
                                 thumbnail={topIngredient.image_mobile}
                             />
@@ -68,7 +74,7 @@ const BurgerConstructor = ({ingredients, onSendOrder}: BurgerConstructorProps) =
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={bottomIngredient.name}
+                                text={bottomIngredientName}
                                 price={bottomIngredient.price}
                                 thumbnail={bottomIngredient.image_mobile}
                             />
