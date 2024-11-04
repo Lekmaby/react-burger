@@ -1,0 +1,25 @@
+.IngredientInfoList{
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.IngredientInfoItem{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    min-width: 112px;
+}
+
+.IngredientImage{
+    min-height: 256px;
+    margin-bottom: 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

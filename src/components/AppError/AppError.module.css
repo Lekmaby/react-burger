@@ -1,0 +1,5 @@
+.errorWrapper{
+    background-color: var(--background-element);
+    height: min-content;
+    margin: 1rem 0;
+}

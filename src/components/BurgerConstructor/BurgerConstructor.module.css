@@ -1,0 +1,51 @@
+.section {
+    margin: 0 20px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.BurgerConstructorMiddleIngredients {
+    height: calc(100vh - 520px);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    padding-right: 4px; /* for scrollbar */
+}
+
+.BurgerConstructorMiddleIngredient {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.BurgerConstructorLockedIngredient {
+    margin-left: 32px;
+    margin-right: 12px;
+}
+
+.BurgerConstructorList {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px
+}
+
+.BurgerConstructorSummaryContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    position: relative;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.BurgerConstructorSummaryPrice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
