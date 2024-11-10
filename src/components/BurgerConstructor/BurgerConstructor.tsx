@@ -31,8 +31,8 @@ const BurgerConstructor = () => {
     return (
         <section className={style.section}>
             <ul className={style.BurgerConstructorList + ' ' +
-                (canDrop && isOver && style.BurgerConstructorDragCanDrop) + ' ' +
-                (canDrop && !isOver && style.BurgerConstructorDragIsOver)}
+                ((canDrop && isOver) ? style.BurgerConstructorDragCanDrop : '') + ' ' +
+                ((canDrop && !isOver) ? style.BurgerConstructorDragIsOver : '')}
                 ref={drop}
             >
                 <li className={style.BurgerConstructorLockedIngredient}>
@@ -48,7 +48,6 @@ const BurgerConstructor = () => {
                             <BurgerConstructorNoIngredient type="top" text="Добавьте булку"/>
                     }
                 </li>
-
 
                 {
                     ingredients?.length > 0 ?

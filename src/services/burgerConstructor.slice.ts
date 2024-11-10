@@ -56,8 +56,9 @@ export const {
     addIngredient,
     removeIngredient,
     moveIngredient
-} = burgerConstructorSlice.actions
-export const {getSelectedBun, getSelectedIngredients} = burgerConstructorSlice.selectors
+} = burgerConstructorSlice.actions;
+
+export const {getSelectedBun, getSelectedIngredients} = burgerConstructorSlice.selectors;
 
 
-export default burgerConstructorSlice
+export default burgerConstructorSlice;

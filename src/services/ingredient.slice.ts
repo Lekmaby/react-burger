@@ -31,7 +31,7 @@ export const ingredientSlice = createSlice({
     },
 })
 
-export const {ingredientSelected, ingredientClosed} = ingredientSlice.actions
-export const {getIngredientIsOpened, getIngredient} = ingredientSlice.selectors
+export const {ingredientSelected, ingredientClosed} = ingredientSlice.actions;
+export const {getIngredientIsOpened, getIngredient} = ingredientSlice.selectors;
 
-export default ingredientSlice
+export default ingredientSlice;

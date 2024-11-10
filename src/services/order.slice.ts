@@ -41,7 +41,7 @@ export const orderSlice = createSlice({
     },
 })
 
-export const {setOrder, orderClosed} = orderSlice.actions
-export const {getOrderIsOpened, getOrder} = orderSlice.selectors
+export const {setOrder, orderClosed} = orderSlice.actions;
+export const {getOrderIsOpened, getOrder} = orderSlice.selectors;
 
-export default orderSlice
+export default orderSlice;

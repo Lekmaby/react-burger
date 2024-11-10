@@ -43,7 +43,7 @@ export const errorSlice = createSlice({
     },
 })
 
-export const {setError, resetError} = errorSlice.actions
-export const {getError} = errorSlice.selectors
+export const {setError, resetError} = errorSlice.actions;
+export const {getError} = errorSlice.selectors;
 
-export default errorSlice
+export default errorSlice;
