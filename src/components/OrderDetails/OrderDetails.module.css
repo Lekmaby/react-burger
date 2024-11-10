@@ -10,11 +10,11 @@
     margin-bottom: 60px;
 }
 
-.OrderDetailsStatusIcon{
+.OrderDetailsStatusIcon {
     width: 48px;
     height: 48px;
 }
 
-.OrderDetailsNumber{
+.OrderDetailsNumber {
     text-shadow: 0 4px 16px #3333FF80;
 }

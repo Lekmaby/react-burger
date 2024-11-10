@@ -12,11 +12,11 @@ const OrderDetailsStatus = ({status = 'success'}: OrderDetailsStatusProps) => {
              style={{backgroundImage: `url(${bgImage})`}}
         >
             {
-                status === 'success' && 
+                status === 'success' &&
                 <CheckMarkIcon type="primary" className={style.OrderDetailsStatusIcon}/>
             }
             {
-                status === 'error' && 
+                status === 'error' &&
                 <CloseIcon type="primary" className={style.OrderDetailsStatusIcon}/>
             }
         </div>
