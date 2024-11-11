@@ -2,102 +2,62 @@ import style from './App.module.css'
 import AppHeader from "../AppHeader/AppHeader.tsx";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients.tsx";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.tsx";
-import React, {useCallback, useEffect} from "react";
-import {Ingredient} from "../../types/ingredient.ts";
-import config from "../../utils/config.ts";
-import AppError from "../AppError/AppError.tsx";
-import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
 import OrderDetails from "../OrderDetails/OrderDetails.tsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.tsx";
 import Modal from "../Modal/Modal.tsx";
+import {useAppDispatch, useAppSelector} from "../../hooks.ts";
+import {getIngredientIsOpened, ingredientClosed} from "../../services/ingredient.slice.ts";
+import {getOrderIsOpened, orderClosed} from "../../services/order.slice.ts";
+import {getError, resetError} from "../../services/error.slice.ts";
+import AppError from "../AppError/AppError.tsx";
 
 function App() {
-    const [ingredients, setIngredients] = React.useState<Ingredient[]>([])
-    const [error, setError] = React.useState<string>()
-    const [loading, setLoading] = React.useState<boolean>(false)
-    const [showOrderDetails, setShowOrderDetails] = React.useState<boolean>(false)
-    const [ingredient, setIngredient] = React.useState<Ingredient>()
-    const [showIngredientDetails, setShowIngredientDetails] = React.useState<boolean>(false)
-
-    useEffect(() => {
-        setLoading(true);
-        fetch(config.url)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                
-                return Promise.reject(`Ошибка ${res.status}`);
-            })
-            .then(data => {
-                if (data.success) {
-                    setIngredients(data.data)
-                }
-                
-                return Promise.reject(`Ошибка в данных`);
-            })
-            .catch(error => setError(error.message))
-            .finally(() => setLoading(false));
-    }, []);
-
-    const newOrderHandler = useCallback(() => {
-        setShowOrderDetails(true);
-    }, []);
-
-    const openIngredientHandler = useCallback((item: Ingredient) => {
-        setIngredient(item);
-        setShowIngredientDetails(true);
-    }, [])
+    const dispatch = useAppDispatch();
+    const ingredientIsOpened = useAppSelector(getIngredientIsOpened);
+    const orderIsOpened = useAppSelector(getOrderIsOpened);
+    const error = useAppSelector(getError);
 
     return (
         <>
             <AppHeader/>
 
             <main className={style.main}>
-                <AppLoadingIndicator loading={loading}/>
-
-                {
-                    error && <AppError message={error}/>
-                }
-
-                {
-                    !loading && !error && ingredients &&
-                    <>
-                        <BurgerIngredients
-                            ingredients={ingredients}
-                            onOpen={openIngredientHandler}
-                        />
-
-                        <BurgerConstructor
-                            ingredients={ingredients}
-                            onSendOrder={newOrderHandler}
-                        />
-                    </>
-                }
+                <BurgerIngredients/>
+                <BurgerConstructor/>
             </main>
 
-            {showOrderDetails &&
+            {orderIsOpened &&
                 <Modal
                     onClose={() => {
-                        setShowOrderDetails(false);
+                        dispatch(orderClosed())
                     }}
                 >
                     <OrderDetails/>
                 </Modal>
             }
 
-            {showIngredientDetails && ingredient &&
+            {ingredientIsOpened &&
                 <Modal
                     title="Детали ингредиента"
                     onClose={() => {
-                        setShowIngredientDetails(false);
-                        setIngredient(undefined);
+                        dispatch(ingredientClosed());
                     }}
                 >
-                    <IngredientDetails ingredient={ingredient}/>
+                    <IngredientDetails/>
                 </Modal>
-                
             }
+
+            {error && error?.length > 0 &&
+                <Modal
+                    title="Ошибка"
+                    onClose={() => {
+                        dispatch(resetError());
+                    }}
+                >
+                    <AppError message={error}/>
+                </Modal>
+            }
+
         </>
     )
 }

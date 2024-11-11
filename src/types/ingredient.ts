@@ -2,6 +2,7 @@ import {IngredientTypeEnum} from "../enum/ingredient-type.enum.ts";
 
 export type Ingredient = {
     _id: string,
+    _key?: string,
     name: string,
     type: IngredientTypeEnum,
     proteins: number,

@@ -1,49 +1,102 @@
 import style from './BurgerIngredients.module.css';
-import {Counter, CurrencyIcon, Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useCallback, useMemo, useRef} from "react";
 import {IngredientTypeEnum} from "../../enum/ingredient-type.enum.ts";
 import {Ingredient} from "../../types/ingredient.ts";
 import ingredientUtil from "../../utils/ingredientUtil.ts";
+import {useGetIngredientsQuery} from "../../services/ingredient.api.ts";
+import {useAppSelector} from "../../hooks.ts";
+import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
+import {getSelectedBun, getSelectedIngredients} from "../../services/burgerConstructor.slice.ts";
+import BurgerCategory from "./BurgerCategory.tsx";
 
-type TabItem = {
+export type TabItem = {
     value: IngredientTypeEnum,
     title: string
+    id: string
 };
 
-type BurgerIngredientsProps = {
-    ingredients: Ingredient[],
-    onOpen: (item: Ingredient) => void
-};
+const BurgerIngredients = () => {
+    const {isLoading, data: ingredients} = useGetIngredientsQuery();
+    const burgerIngredients: Ingredient[] = useAppSelector(getSelectedIngredients);
+    const bun: Ingredient | null = useAppSelector(getSelectedBun);
 
-const BurgerIngredients = ({ingredients, onOpen}: BurgerIngredientsProps) => {
-    const [tab, setTab] = React.useState(IngredientTypeEnum.BUN)
+    const [tab, setTab] = React.useState(IngredientTypeEnum.BUN);
+    const tabRef = useRef<HTMLDivElement | null>(null);
 
-    const groups: Record<IngredientTypeEnum, Ingredient[]> = React.useMemo(() => {
-        const groupedIngredients: Record<IngredientTypeEnum | string, Ingredient[]> = {};
-
-        for (const ingredient of ingredients) {
-            if (!groupedIngredients?.[ingredient.type]) {
-                groupedIngredients[ingredient.type] = [];
-            }
-
-            groupedIngredients[ingredient.type].push(ingredient);
-        }
-        return groupedIngredients;
-    }, [ingredients]);
 
     const tabs: TabItem[] = React.useMemo(() => {
         const tabs: Record<IngredientTypeEnum | string, TabItem> = {};
 
-        for (const ingredient of ingredients) {
-            if (!tabs?.[ingredient.type]) {
-                tabs[ingredient.type] = {
-                    value: ingredient.type,
-                    title: ingredientUtil.getTypeTitle(ingredient.type),
-                };
+        if (ingredients) {
+            for (const ingredient of ingredients) {
+                if (!tabs?.[ingredient.type]) {
+                    tabs[ingredient.type] = {
+                        value: ingredient.type,
+                        id: 'category_' + ingredient.type,
+                        title: ingredientUtil.getTypeTitle(ingredient.type),
+                    };
+                }
             }
         }
+
         return Object.values(tabs);
     }, [ingredients]);
+
+    const counters: Record<string, number> = useMemo(() => {
+        const result: Record<string, number> = burgerIngredients?.reduce((p: Record<string, number>, c: Ingredient) => {
+            const key = c._id;
+            if (!p[key]) {
+                p[key] = 0;
+            }
+            p[key]++;
+            return p;
+        }, {});
+
+        if (bun) {
+            result[bun._id] = 2;
+        }
+
+        return result;
+    }, [bun, burgerIngredients])
+
+    const scrollHandler = useCallback(() => {
+        const tabsRect = tabRef.current?.getBoundingClientRect();
+        if (!tabsRect) return;
+
+        const tabsBottom = tabsRect.y + tabsRect.height;
+        let closestTab = '';
+        let minDistance = Infinity;
+
+        tabs.forEach((tab) => {
+            const rect = document.getElementById(tab.id)?.getBoundingClientRect();
+            if (!rect) return;
+
+            const distance = Math.abs(tabsBottom - rect.y);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestTab = tab.value;
+            }
+        });
+
+        setTab(closestTab as IngredientTypeEnum);
+    }, [tabs]);
+
+    const tabSelectedHandler = useCallback((group: TabItem) => {
+        setTab(group.value);
+        const elem = document.getElementById(group.id);
+        if (elem) {
+            elem.scrollIntoView({behavior: 'smooth'});
+        }
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="m-10">
+                <AppLoadingIndicator loading={isLoading}/>
+            </div>
+        );
+    }
 
     return (
         <section className={style.section}>
@@ -51,54 +104,30 @@ const BurgerIngredients = ({ingredients, onOpen}: BurgerIngredientsProps) => {
                 Соберите бургер
             </p>
 
-            <div className={style.tabContainer + ' mb-10'}>
+            <div ref={tabRef} className={style.tabContainer + ' mb-10'}>
                 {
                     tabs?.map((group: TabItem) =>
                         <Tab
                             key={group.value}
                             value={group.value}
                             active={tab === group.value}
-                            onClick={(value: string) => setTab(value as IngredientTypeEnum)}
+                            onClick={() => {
+                                tabSelectedHandler(group)
+                            }}
                         >
                             {group.title}
                         </Tab>)
                 }
             </div>
 
-            <div className={style.listContainer}>
+            <div className={style.listContainer} onScroll={scrollHandler}>
                 {
                     tabs?.map((tab: TabItem) =>
-                        <div key={tab.value}>
-                            <p className="text text_type_main-medium mb-6">
-                                {tab.title}
-                            </p>
-                            <ul className={style.groupList + ' mb-10'}>
-                                {
-                                    groups[tab.value]
-                                        .map((item: Ingredient, index: number) => (
-                                            <li key={item._id}
-                                                className={style.ingredient + ' pl-4 pr-4'}
-                                                onClick={() => {
-                                                    onOpen(item);
-                                                }}
-                                            >
-                                                <img src={item.image} alt={item.name}/>
-
-                                                <Counter count={index + 1} size="default"/>
-
-                                                <div className={style.ingredientPrice}>
-                                                    <p className="text text_type_digits-default">{item.price}</p>
-                                                    <CurrencyIcon type="primary"/>
-                                                </div>
-
-                                                <p className={style.ingredientName + ' text text_type_main-default'}>
-                                                    {item.name}
-                                                </p>
-                                            </li>
-                                        ))
-                                }
-                            </ul>
-                        </div>
+                        <BurgerCategory
+                            key={tab.value}
+                            tab={tab}
+                            counters={counters}
+                        />
                     )
                 }
             </div>

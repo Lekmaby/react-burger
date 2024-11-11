@@ -1,11 +1,15 @@
 import OrderDetailsStatus from "./OrderDetailsStatus.tsx";
 import style from './OrderDetails.module.css';
+import {useAppSelector} from "../../hooks.ts";
+import {getOrder} from "../../services/order.slice.ts";
 
 const OrderDetails = () => {
+    const order = useAppSelector(getOrder);
+
     return (
         <>
             <p className={style.OrderDetailsNumber + ' text text_type_digits-large pb-8'}>
-                034536
+                {order?.number ?? ''}
             </p>
 
             <p className="text text_type_main-medium pb-15">

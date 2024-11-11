@@ -1,4 +1,4 @@
-.IngredientInfoList{
+.IngredientInfoList {
     list-style-type: none;
     padding-left: 0;
     display: flex;
@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-.IngredientInfoItem{
+.IngredientInfoItem {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -17,7 +17,7 @@
     min-width: 112px;
 }
 
-.IngredientImage{
+.IngredientImage {
     min-height: 256px;
     margin-bottom: 16px;
     margin-left: 20px;

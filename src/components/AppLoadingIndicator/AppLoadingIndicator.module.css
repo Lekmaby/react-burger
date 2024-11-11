@@ -1,4 +1,4 @@
-.loaderWrapper{
+.loaderWrapper {
     margin: 0 auto;
 }
 
@@ -6,10 +6,7 @@
     border: 10px solid #f3f3f3;
     border-top: 10px solid var(--color-secondary-text);
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
     animation: spin 1s linear infinite;
-    margin: 1rem;
 }
 
 @keyframes spin {

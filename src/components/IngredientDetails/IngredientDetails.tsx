@@ -1,25 +1,28 @@
 import style from './IngredientDetails.module.css';
-import {Ingredient} from "../../types/ingredient.ts";
 import {useMemo} from "react";
-
-type IngredientDetailsProps = {
-    ingredient: Ingredient,
-};
+import {useAppSelector} from "../../hooks.ts";
+import {getIngredient} from "../../services/ingredient.slice.ts";
 
 type IngredientInfoItem = {
     title: string;
     value: string | number;
 };
 
-const IngredientDetails = ({ingredient}: IngredientDetailsProps) => {
+const IngredientDetails = () => {
+    const ingredient = useAppSelector(getIngredient);
+
     const infoItems: IngredientInfoItem[] = useMemo(() => {
         return [
-            {title: 'Калории, ккал', value: ingredient.calories},
-            {title: 'Белки, г', value: ingredient.proteins},
-            {title: 'Жиры, г', value: ingredient.fat},
-            {title: 'Углеводы, г', value: ingredient.carbohydrates},
+            {title: 'Калории, ккал', value: ingredient?.calories ?? ''},
+            {title: 'Белки, г', value: ingredient?.proteins ?? ''},
+            {title: 'Жиры, г', value: ingredient?.fat ?? ''},
+            {title: 'Углеводы, г', value: ingredient?.carbohydrates ?? ''},
         ];
     }, [ingredient])
+
+    if (!ingredient) {
+        return null;
+    }
 
     return (
         <>

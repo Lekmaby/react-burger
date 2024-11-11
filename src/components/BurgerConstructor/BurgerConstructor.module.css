@@ -3,35 +3,55 @@
     max-width: 600px;
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+
+.draggable {
+    cursor: grab;
+}
+
+.BurgerConstructorDragCanDrop {
+    box-shadow: 0 0 16px 16px rgba(51, 51, 255, 0.25), 0 0 8px 8px rgba(51, 51, 255, 0.25);
+    filter: drop-shadow(0px 4px 32px rgba(51, 51, 255, 0.5));
+}
+
+.BurgerConstructorDragIsOver {
+    box-shadow: 0 0 16px 8px rgba(51, 51, 255, 0.25), 0 0 8px 8px rgba(51, 51, 255, 0.25);
 }
 
 .BurgerConstructorMiddleIngredients {
     height: calc(100vh - 520px);
-    min-height: 120px;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
-    padding-right: 4px; /* for scrollbar */
+    scroll-snap-type: y mandatory;
+    width: 100%;
 }
 
 .BurgerConstructorMiddleIngredient {
     display: flex;
     align-items: center;
     gap: 8px;
+    scroll-snap-align: start;
+    width: 100%;
 }
 
 .BurgerConstructorLockedIngredient {
     margin-left: 32px;
-    margin-right: 12px;
 }
 
 .BurgerConstructorList {
+    margin-top: 84px;
     list-style-type: none;
-    padding-left: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px
+    gap: 16px;
+    width: 100%;
+    border-radius: var(--common-border-radius-s);
+    padding: 16px 16px 16px 0;
+    transition: var(--common-transition);
 }
 
 .BurgerConstructorSummaryContainer {
@@ -48,4 +68,37 @@
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.EmptyIngredientContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.EmptyIngredient {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    padding: 16px 24px;
+    border-radius: var(--common-border-radius-s);
+    background: var(--background-element);
+    max-width: 536px;
+    min-height: 80px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #F2F2F3;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+.EmptyIngredientTop {
+    border-radius: var(--top-constructor-item-border-radius);
+}
+
+.EmptyIngredientBottom {
+    border-radius: var(--bottom-constructor-item-border-radius);
 }
