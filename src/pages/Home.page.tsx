@@ -3,10 +3,18 @@ import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor
 
 const HomePage = () => {
     return (
-        <>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 40,
+            justifyContent: 'space-between',
+            margin: '0 auto',
+            height: '100%',
+            width: '100%'
+        }}>
             <BurgerIngredients/>
             <BurgerConstructor/>
-        </>
+        </div>
     );
 }
 

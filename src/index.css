@@ -45,3 +45,8 @@ body {
     scrollbar-width: thin;
     scrollbar-color: var(--color-secondary-text) var(--color-input);
 }
+
+a {
+    color: var(--colors-interface-accent);
+    text-decoration: none;
+}
