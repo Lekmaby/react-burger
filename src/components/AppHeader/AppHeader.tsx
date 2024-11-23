@@ -1,5 +1,6 @@
 import style from './AppHeader.module.css';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {NavLink} from "react-router-dom";
 
 const AppHeader = () => {
     return (
@@ -8,16 +9,17 @@ const AppHeader = () => {
                 <nav className={style.nav}>
                     <ul className={style.ul}>
                         <li className={style.navItem}>
-                            <a href="#" className={style.navLink + ' text text_type_main-default'}>
+                            <NavLink to={"/"} className={style.navLink + ' text text_type_main-default'}>
                                 <BurgerIcon type="primary"/>
                                 <span>Конструктор</span>
-                            </a>
+                            </NavLink>
                         </li>
                         <li className={style.navItem}>
-                            <a href="#" className={style.navLink + ' text text_type_main-default text_color_inactive'}>
+                            <NavLink to={"/orders"}
+                                     className={style.navLink + ' text text_type_main-default text_color_inactive'}>
                                 <ListIcon type="disabled"/>
                                 <span>Лента заказов</span>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>
@@ -30,10 +32,11 @@ const AppHeader = () => {
                 <nav className={style.nav}>
                     <ul className={style.ul + ' ' + style.ulEnd}>
                         <li className={style.navItem}>
-                            <a href="#" className={style.navLink + ' text text_type_main-default text_color_inactive'}>
+                            <NavLink to={"/profile"}
+                                     className={style.navLink + ' text text_type_main-default text_color_inactive'}>
                                 <ProfileIcon type="disabled"/>
                                 <span>Личный кабинет</span>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>

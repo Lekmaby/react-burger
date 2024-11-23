@@ -2,14 +2,13 @@ import {combineSlices, configureStore} from '@reduxjs/toolkit'
 import {setupListeners} from '@reduxjs/toolkit/query'
 import {ingredientApi} from './services/ingredient.api'
 import burgerConstructorSlice from "./services/burgerConstructor.slice.ts";
-import ingredientSlice from "./services/ingredient.slice.ts";
 import orderSlice from "./services/order.slice.ts";
 import {orderApi} from "./services/orders.api.ts";
 import errorSlice from "./services/error.slice.ts";
 
 const rootReducer = combineSlices(
     ingredientApi, orderApi,
-    burgerConstructorSlice, ingredientSlice, orderSlice, errorSlice
+    burgerConstructorSlice, orderSlice, errorSlice
 );
 
 export const store = configureStore({

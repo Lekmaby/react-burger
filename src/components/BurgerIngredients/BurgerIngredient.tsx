@@ -1,11 +1,10 @@
 import style from './BurgerIngredients.module.css';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useCallback} from "react";
 import {Ingredient} from "../../types/ingredient.ts";
-import {ingredientSelected} from "../../services/ingredient.slice.ts";
 import {useAppDispatch} from "../../hooks.ts";
 import {addIngredient} from "../../services/burgerConstructor.slice.ts";
 import {useDrag} from "react-dnd";
+import {Link, useLocation} from "react-router-dom";
 
 type BurgerIngredientProps = {
     ingredient: Ingredient,
@@ -14,6 +13,7 @@ type BurgerIngredientProps = {
 
 const BurgerIngredient = ({ingredient, qty}: BurgerIngredientProps) => {
     const dispatch = useAppDispatch();
+    const location = useLocation();
 
     const [{isDragging}, drag] = useDrag(() => ({
         type: 'Ingredient',
@@ -32,33 +32,34 @@ const BurgerIngredient = ({ingredient, qty}: BurgerIngredientProps) => {
 
     const opacity = isDragging ? 0.4 : 1;
 
-    const openIngredient = useCallback(() => {
-        dispatch(ingredientSelected(ingredient));
-    }, [dispatch, ingredient]);
-
     return (
-        <li
-            className={style.ingredient + ' pl-4 pr-4'}
-            onClick={openIngredient}
-            ref={drag}
-            style={{opacity}}
+        <Link
+            to={'/ingredients/' + ingredient._id}
+            state={{backgroundLocation: location}}
+            className={style.ingredientLink}
         >
-            <img src={ingredient.image} alt={ingredient.name}/>
+            <li
+                className={style.ingredient + ' pl-4 pr-4'}
+                ref={drag}
+                style={{opacity}}
+            >
+                <img src={ingredient.image} alt={ingredient.name}/>
 
-            {
-                qty > 0 &&
-                <Counter count={qty} size="default"/>
-            }
+                {
+                    qty > 0 &&
+                    <Counter count={qty} size="default"/>
+                }
 
-            <div className={style.ingredientPrice}>
-                <p className="text text_type_digits-default">{ingredient.price}</p>
-                <CurrencyIcon type="primary"/>
-            </div>
+                <div className={style.ingredientPrice}>
+                    <p className="text text_type_digits-default">{ingredient.price}</p>
+                    <CurrencyIcon type="primary"/>
+                </div>
 
-            <p className={style.ingredientName + ' text text_type_main-default'}>
-                {ingredient.name}
-            </p>
-        </li>
+                <p className={style.ingredientName + ' text text_type_main-default'}>
+                    {ingredient.name}
+                </p>
+            </li>
+        </Link>
     );
 }
 
