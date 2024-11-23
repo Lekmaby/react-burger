@@ -1,7 +1,6 @@
 import style from './BurgerConstructor.module.css';
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Ingredient} from "../../types/ingredient.ts";
-import {useMemo} from "react";
 import BurgerConstructorSummary from "./BurgerConstructorSummary.tsx";
 import {useAppSelector} from "../../hooks.ts";
 import {getSelectedBun, getSelectedIngredients} from "../../services/burgerConstructor.slice.ts";
@@ -22,11 +21,8 @@ const BurgerConstructor = () => {
         }),
     }))
 
-    const topIngredientName: string = useMemo(() =>
-        bun?.name + ' (верх)', [bun]);
-
-    const bottomIngredientName: string = useMemo(() =>
-        bun?.name + ' (низ)', [bun]);
+    const topIngredientName: string = bun?.name + ' (верх)';
+    const bottomIngredientName: string = bun?.name + ' (низ)';
 
     return (
         <section className={style.section}>
