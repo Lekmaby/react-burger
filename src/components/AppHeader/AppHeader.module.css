@@ -1,6 +1,8 @@
 .header {
     background-color: var(--color-modal-bg);
     padding: 16px;
+    position: relative;
+    z-index: 10;
 }
 
 .headerContent {

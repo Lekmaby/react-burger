@@ -5,10 +5,11 @@ import burgerConstructorSlice from "./services/burgerConstructor.slice.ts";
 import orderSlice from "./services/order.slice.ts";
 import {orderApi} from "./services/orders.api.ts";
 import errorSlice from "./services/error.slice.ts";
+import userSlice from "./services/user.slice.ts";
 
 const rootReducer = combineSlices(
     ingredientApi, orderApi,
-    burgerConstructorSlice, orderSlice, errorSlice
+    burgerConstructorSlice, orderSlice, errorSlice, userSlice
 );
 
 export const store = configureStore({

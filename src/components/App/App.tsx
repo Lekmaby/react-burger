@@ -8,7 +8,7 @@ import {getOrderIsOpened, orderClosed} from "../../services/order.slice.ts";
 import {getError, resetError} from "../../services/error.slice.ts";
 import AppError from "../AppError/AppError.tsx";
 import HomePage from "../../pages/Home.page.tsx";
-import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import OrdersPage from "../../pages/Orders.page.tsx";
 import LoginPage from "../../pages/Login.page.tsx";
 import ForgotPasswordPage from "../../pages/ForgotPassword.page.tsx";
@@ -20,6 +20,9 @@ import ProfileEditPage from "../../pages/ProfileEdit.page.tsx";
 import ProfileOrderDetailPage from "../../pages/ProfileOrderDetail.page.tsx";
 import NotFoundPage from "../../pages/NotFound.page.tsx";
 import IngredientPage from "../../pages/Ingredient.page.tsx";
+import ProtectedRoute, {UnAuthRoute} from "../ProtectedRoute.tsx";
+import {checkUserAuth} from "../../services/user.thunk.ts";
+import {useEffect} from "react";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -29,6 +32,10 @@ function App() {
     const navigate = useNavigate();
     const state = location.state as { backgroundLocation?: Location };
 
+    useEffect(() => {
+        dispatch(checkUserAuth());
+    }, [dispatch]);
+
     return (
         <>
             <AppHeader/>
@@ -36,15 +43,17 @@ function App() {
             <main className={style.main}>
                 <Routes location={state?.backgroundLocation || location}>
                     <Route path="/" element={<HomePage/>}/>
-                    <Route path="/orders" element={<OrdersPage/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
-                    <Route path="/reset-password" element={<ResetPasswordPage/>}/>
+                    <Route path="/orders" element={<ProtectedRoute component={<OrdersPage/>}/>}/>
                     <Route path="/ingredients/:id" element={<IngredientPage/>}/>
 
-                    <Route path="profile" element={<ProfilePage/>}>
-                        <Route index element={<ProfileEditPage/>}/>
+                    <Route path="/login" element={<UnAuthRoute component={<LoginPage/>}/>}/>
+                    <Route path="/register" element={<UnAuthRoute component={<RegisterPage/>}/>}/>
+                    <Route path="/forgot-password" element={<UnAuthRoute component={<ForgotPasswordPage/>}/>}/>
+                    <Route path="/reset-password" element={<UnAuthRoute component={<ResetPasswordPage/>}/>}/>
+
+                    <Route path="profile" element={<ProtectedRoute component={<ProfilePage/>}/>}>
+                        <Route index element={<Navigate to="/profile/edit" replace/>}/>
+                        <Route path="edit" element={<ProfileEditPage/>}/>
                         <Route path="orders" element={<ProfileOrdersPage/>}/>
                         <Route path="orders/:number" element={<ProfileOrderDetailPage/>}/>
                     </Route>

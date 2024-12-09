@@ -1,12 +1,63 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
 import {useState} from "react";
+import AuthLink from "../components/Auth/AuthLink.tsx";
+import {object, string, TypeOf} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
+import auth from "../utils/auth.ts";
+import {useAppDispatch} from "../hooks.ts";
+import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
+import {setError} from "../services/error.slice.ts";
+
+const registerSchema = object({
+    name: string()
+        .min(1, 'Обязательно для заполнения'),
+    email: string()
+        .min(1, 'Обязательно для заполнения')
+        .email('Некорректный Email'),
+    password: string()
+        .min(1, 'Обязательно для заполнения'),
+});
+
+type RegisterForm = TypeOf<typeof registerSchema>;
 
 const RegisterPage = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const dispatch = useAppDispatch();
     const [passwordShow, setPasswordShow] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const methods = useForm<RegisterForm>({
+        resolver: zodResolver(registerSchema),
+    });
+
+    const {
+        handleSubmit,
+        formState: {errors},
+        control
+    } = methods;
+
+    const onSubmitHandler: SubmitHandler<RegisterForm> = async values => {
+        setIsSubmitting(true);
+
+        try {
+            const result = await auth.register(values.email, values.password, values.name);
+            if (result.success) {
+                localStorage.setItem("refreshToken", result.refreshToken);
+                localStorage.setItem("accessToken", result.accessToken);
+                dispatch(setIsAuthChecked(true));
+                dispatch(setUser(result.user));
+                setIsSubmitting(false);
+            } else {
+                dispatch(setError(result?.message ?? 'Ошибка при регистрации'));
+                setIsSubmitting(false);
+            }
+        } catch (e: any) {
+            console.error(e);
+            dispatch(setError(e?.response?.data?.message ?? JSON.stringify(e)));
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <>
@@ -14,55 +65,79 @@ const RegisterPage = () => {
                 Регистрация
             </p>
 
-            <form action="" className={'mb-20'} style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 24,
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
-                <Input
-                    type={'text'}
-                    placeholder={'Имя'}
-                    onChange={e => setName(e.target.value)}
-                    value={name ?? ''}
-                    name={'name'}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+            <form
+                className={'mb-20'}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 24,
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}
+                onSubmit={handleSubmit(onSubmitHandler)}
+            >
+                <Controller
+                    name="name"
+                    control={control}
+                    render={({field}) => (
+                        <Input
+                            type={'text'}
+                            placeholder={'Имя'}
+                            onChange={field.onChange}
+                            value={field.value ?? ''}
+                            name={'name'}
+                            error={!!errors.name}
+                            errorText={errors?.name?.message ?? ''}
+                            disabled={isSubmitting}
+                        />
+                    )}
                 />
 
-                <Input
-                    type={'email'}
-                    placeholder={'E-mail'}
-                    onChange={e => setEmail(e.target.value)}
-                    value={email ?? ''}
-                    name={'email'}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                <Controller
+                    name="email"
+                    control={control}
+                    render={({field}) => (
+                        <Input
+                            type={'email'}
+                            placeholder={'E-mail'}
+                            onChange={field.onChange}
+                            value={field.value ?? ''}
+                            name={'email'}
+                            error={!!errors.email}
+                            errorText={errors?.email?.message ?? ''}
+                            disabled={isSubmitting}
+                        />
+                    )}
                 />
 
-                <Input
-                    type={passwordShow ? 'text' : 'password'}
-                    placeholder={'Пароль'}
-                    onChange={e => setPassword(e.target.value)}
-                    icon={passwordShow ? 'HideIcon' : 'ShowIcon'}
-                    onIconClick={() => setPasswordShow(!passwordShow)}
-                    value={password ?? ''}
-                    name={'password'}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({field}) => (
+                        <Input
+                            type={passwordShow ? 'text' : 'password'}
+                            placeholder={'Пароль'}
+                            icon={passwordShow ? 'HideIcon' : 'ShowIcon'}
+                            onIconClick={() => setPasswordShow(!passwordShow)}
+                            onChange={field.onChange}
+                            value={field.value ?? ''}
+                            name={'password'}
+                            error={!!errors.password}
+                            errorText={errors?.password?.message ?? ''}
+                            disabled={isSubmitting}
+                        />
+                    )}
                 />
 
-                <Button htmlType="button" type="primary" size="medium" extraClass="center">
-                    Зарегистрироваться
+                <Button htmlType="submit" type="primary" size="medium" extraClass="center" disabled={isSubmitting}>
+                    {!isSubmitting && 'Зарегистрироваться'}
+
+                    <AppLoadingIndicator loading={isSubmitting} size={15}/>
                 </Button>
             </form>
 
             <div style={{textAlign: 'center'}}>
-                <p className="text text_type_main-default text_color_inactive mb-4">
-                    <span className="mr-2">Уже зарегистрированы?</span>
-                    <Link to={'/login'}>Войти</Link>
-                </p>
+                <AuthLink text="Уже зарегистрированы?" linkText="Войти" link="/login"/>
             </div>
         </>
     );

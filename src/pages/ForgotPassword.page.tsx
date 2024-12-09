@@ -1,9 +1,57 @@
 import {useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import AuthLink from "../components/Auth/AuthLink.tsx";
+import {object, string, TypeOf} from "zod";
+import {useAppDispatch} from "../hooks.ts";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import auth from "../utils/auth.ts";
+import {setError} from "../services/error.slice.ts";
+import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
+import {useNavigate} from "react-router-dom";
+
+const forgotPasswordSchema = object({
+    email: string()
+        .min(1, 'Обязательно для заполнения')
+        .email('Некорректный Email'),
+});
+
+type ForgotPasswordForm = TypeOf<typeof forgotPasswordSchema>;
 
 const ForgotPasswordPage = () => {
-    const [email, setEmail] = useState('');
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const methods = useForm<ForgotPasswordForm>({
+        resolver: zodResolver(forgotPasswordSchema),
+    });
+
+    const {
+        handleSubmit,
+        formState: {errors},
+        control
+    } = methods;
+
+    const onSubmitHandler: SubmitHandler<ForgotPasswordForm> = async values => {
+        setIsSubmitting(true);
+
+        try {
+            const result = await auth.passwordReset(values.email);
+            if (result.success) {
+                localStorage.setItem("forgotPassword", '1');
+                navigate('/reset-password');
+                setIsSubmitting(false);
+            } else {
+                dispatch(setError(result?.message ?? 'Ошибка при регистрации'));
+                setIsSubmitting(false);
+            }
+        } catch (e: any) {
+            console.error(e);
+            dispatch(setError(e?.response?.data?.message ?? JSON.stringify(e)));
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <>
@@ -11,34 +59,44 @@ const ForgotPasswordPage = () => {
                 Восстановление пароля
             </p>
 
-            <form action="" className={'mb-20'} style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 24,
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
+            <form
+                className={'mb-20'}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 24,
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}
+                onSubmit={handleSubmit(onSubmitHandler)}
+            >
 
-                <Input
-                    type={'email'}
-                    placeholder={'Укажите e-mail'}
-                    onChange={e => setEmail(e.target.value)}
-                    value={email ?? ''}
-                    name={'email'}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                <Controller
+                    name="email"
+                    control={control}
+                    render={({field}) => (
+                        <Input
+                            type={'email'}
+                            placeholder={'Укажите e-mail'}
+                            onChange={field.onChange}
+                            value={field.value ?? ''}
+                            name={'email'}
+                            error={!!errors.email}
+                            errorText={errors?.email?.message ?? ''}
+                            disabled={isSubmitting}
+                        />
+                    )}
                 />
 
-                <Button htmlType="button" type="primary" size="medium" extraClass="center">
-                    Восстановить
+                <Button htmlType="submit" type="primary" size="medium" extraClass="center" disabled={isSubmitting}>
+                    {!isSubmitting && 'Восстановить'}
+
+                    <AppLoadingIndicator loading={isSubmitting} size={15}/>
                 </Button>
             </form>
 
             <div style={{textAlign: 'center'}}>
-                <p className="text text_type_main-default text_color_inactive mb-4">
-                    <span className="mr-2">Вспомнили пароль?</span>
-                    <Link to={'/login'}>Войти</Link>
-                </p>
+                <AuthLink text="Вспомнили пароль?" linkText="Войти" link="/login"/>
             </div>
         </>
     );

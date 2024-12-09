@@ -1,11 +1,66 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import AuthLink from "../components/Auth/AuthLink.tsx";
+import {object, string, TypeOf} from "zod";
+import {useAppDispatch} from "../hooks.ts";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import auth from "../utils/auth.ts";
+import {setError} from "../services/error.slice.ts";
+import {useNavigate} from "react-router-dom";
+import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
+
+const resetPasswordSchema = object({
+    code: string()
+        .min(1, 'Обязательно для заполнения'),
+    password: string()
+        .min(1, 'Обязательно для заполнения'),
+});
+
+type ResetPasswordForm = TypeOf<typeof resetPasswordSchema>;
 
 const ResetPasswordPage = () => {
-    const [password, setPassword] = useState('');
-    const [code, setCode] = useState('');
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [passwordShow, setPasswordShow] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        const forgotPassword = localStorage.getItem("forgotPassword");
+        if (forgotPassword !== '1') {
+            navigate('/forgot-password');
+        }
+    }, [navigate]);
+
+    const methods = useForm<ResetPasswordForm>({
+        resolver: zodResolver(resetPasswordSchema),
+    });
+
+    const {
+        handleSubmit,
+        formState: {errors},
+        control
+    } = methods;
+
+    const onSubmitHandler: SubmitHandler<ResetPasswordForm> = async values => {
+        setIsSubmitting(true);
+
+        try {
+            const result = await auth.passwordResetReset(values.password, values.code);
+            if (result.success) {
+                localStorage.removeItem("forgotPassword");
+                navigate('/login');
+                setIsSubmitting(false);
+            } else {
+                dispatch(setError(result?.message ?? 'Ошибка при регистрации'));
+                setIsSubmitting(false);
+            }
+        } catch (e: any) {
+            console.error(e);
+            dispatch(setError(e?.response?.data?.message ?? JSON.stringify(e)));
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <>
@@ -13,46 +68,63 @@ const ResetPasswordPage = () => {
                 Восстановление пароля
             </p>
 
-            <form action="" className={'mb-20'} style={{
+            <form
+                className={'mb-20'}
+                style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 24,
                 justifyContent: 'space-between',
                 alignItems: 'center'
-            }}>
+                }}
+                onSubmit={handleSubmit(onSubmitHandler)}
+            >
 
-                <Input
-                    type={passwordShow ? 'text' : 'password'}
-                    placeholder={'Пароль'}
-                    onChange={e => setPassword(e.target.value)}
-                    icon={passwordShow ? 'HideIcon' : 'ShowIcon'}
-                    onIconClick={() => setPasswordShow(!passwordShow)}
-                    value={password ?? ''}
-                    name={'password'}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({field}) => (
+                        <Input
+                            type={passwordShow ? 'text' : 'password'}
+                            placeholder={'Пароль'}
+                            icon={passwordShow ? 'HideIcon' : 'ShowIcon'}
+                            onIconClick={() => setPasswordShow(!passwordShow)}
+                            onChange={field.onChange}
+                            value={field.value ?? ''}
+                            name={'password'}
+                            error={!!errors.password}
+                            errorText={errors?.password?.message ?? ''}
+                            disabled={isSubmitting}
+                        />
+                    )}
                 />
 
-                <Input
-                    type={'text'}
-                    placeholder={'Введите код из письма'}
-                    onChange={e => setCode(e.target.value)}
-                    value={code ?? ''}
-                    name={'code'}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                <Controller
+                    name="code"
+                    control={control}
+                    render={({field}) => (
+                        <Input
+                            type={'text'}
+                            placeholder={'Введите код из письма'}
+                            onChange={field.onChange}
+                            value={field.value ?? ''}
+                            name={'name'}
+                            error={!!errors.code}
+                            errorText={errors?.code?.message ?? ''}
+                            disabled={isSubmitting}
+                        />
+                    )}
                 />
 
-                <Button htmlType="button" type="primary" size="medium" extraClass="center">
-                    Сохранить
+                <Button htmlType="submit" type="primary" size="medium" extraClass="center" disabled={isSubmitting}>
+                    {!isSubmitting && 'Сохранить'}
+
+                    <AppLoadingIndicator loading={isSubmitting} size={15}/>
                 </Button>
             </form>
 
             <div style={{textAlign: 'center'}}>
-                <p className="text text_type_main-default text_color_inactive mb-4">
-                    <span className="mr-2">Вспомнили пароль?</span>
-                    <Link to={'/login'}>Войти</Link>
-                </p>
+                <AuthLink text="Вспомнили пароль?" linkText="Войти" link="/login"/>
             </div>
         </>
     );
