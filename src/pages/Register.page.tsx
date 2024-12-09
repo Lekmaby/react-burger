@@ -9,6 +9,7 @@ import auth from "../utils/auth.ts";
 import {useAppDispatch} from "../hooks.ts";
 import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
 import {setError} from "../services/error.slice.ts";
+import style from './styles/Auth.module.css';
 
 const registerSchema = object({
     name: string()
@@ -66,14 +67,7 @@ const RegisterPage = () => {
             </p>
 
             <form
-                className={'mb-20'}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 24,
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}
+                className={style.authForm + ' mb-20'}
                 onSubmit={handleSubmit(onSubmitHandler)}
             >
                 <Controller
@@ -89,6 +83,7 @@ const RegisterPage = () => {
                             error={!!errors.name}
                             errorText={errors?.name?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="name"
                         />
                     )}
                 />
@@ -106,6 +101,7 @@ const RegisterPage = () => {
                             error={!!errors.email}
                             errorText={errors?.email?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="email"
                         />
                     )}
                 />
@@ -125,6 +121,7 @@ const RegisterPage = () => {
                             error={!!errors.password}
                             errorText={errors?.password?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="new-password"
                         />
                     )}
                 />
@@ -136,7 +133,7 @@ const RegisterPage = () => {
                 </Button>
             </form>
 
-            <div style={{textAlign: 'center'}}>
+            <div className={style.authLinkWrapper}>
                 <AuthLink text="Уже зарегистрированы?" linkText="Войти" link="/login"/>
             </div>
         </>

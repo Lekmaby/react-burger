@@ -9,6 +9,7 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import auth from "../utils/auth.ts";
 import {setError} from "../services/error.slice.ts";
+import style from './styles/Profile.module.css';
 
 const userUpdateSchema = object({
     name: string()
@@ -76,14 +77,7 @@ const ProfileEditPage = () => {
     return (
         <>
             <form
-                className={'mb-20'}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 24,
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
-                }}
+                className={style.profileEditForm + ' mb-20'}
                 onSubmit={handleSubmit(onSubmitHandler)}
             >
                 <Controller
@@ -101,6 +95,7 @@ const ProfileEditPage = () => {
                             error={!!errors.name}
                             errorText={errors?.name?.message ?? ''}
                             disabled={isSubmitting || !nameEdit}
+                            autoComplete="name"
                         />
                     )}
                 />
@@ -120,6 +115,7 @@ const ProfileEditPage = () => {
                             error={!!errors.email}
                             errorText={errors?.email?.message ?? ''}
                             disabled={isSubmitting || !emailEdit}
+                            autoComplete="email"
                         />
                     )}
                 />
@@ -139,19 +135,14 @@ const ProfileEditPage = () => {
                             error={!!errors.password}
                             errorText={errors?.password?.message ?? ''}
                             disabled={isSubmitting || !passwordEdit}
+                            autoComplete="new-password"
                         />
                     )}
                 />
 
                 {
                     isDirty && (nameEdit || emailEdit || passwordEdit) &&
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 5,
-                        justifyContent: 'flex-end',
-                        width: '100%'
-                    }}>
+                    <div className={style.profileEditBtnWrapper}>
                         <Button htmlType="button" type="secondary" size="medium" extraClass="center"
                                 disabled={isSubmitting} onClick={cancel}>
                             Отмена

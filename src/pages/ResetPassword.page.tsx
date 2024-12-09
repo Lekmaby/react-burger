@@ -9,6 +9,7 @@ import auth from "../utils/auth.ts";
 import {setError} from "../services/error.slice.ts";
 import {useNavigate} from "react-router-dom";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
+import style from './styles/Auth.module.css';
 
 const resetPasswordSchema = object({
     code: string()
@@ -69,14 +70,7 @@ const ResetPasswordPage = () => {
             </p>
 
             <form
-                className={'mb-20'}
-                style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 24,
-                justifyContent: 'space-between',
-                alignItems: 'center'
-                }}
+                className={style.authForm + ' mb-20'}
                 onSubmit={handleSubmit(onSubmitHandler)}
             >
 
@@ -95,6 +89,7 @@ const ResetPasswordPage = () => {
                             error={!!errors.password}
                             errorText={errors?.password?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="new-password"
                         />
                     )}
                 />
@@ -123,7 +118,7 @@ const ResetPasswordPage = () => {
                 </Button>
             </form>
 
-            <div style={{textAlign: 'center'}}>
+            <div className={style.authLinkWrapper}>
                 <AuthLink text="Вспомнили пароль?" linkText="Войти" link="/login"/>
             </div>
         </>

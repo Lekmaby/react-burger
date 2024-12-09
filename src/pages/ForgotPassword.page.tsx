@@ -9,6 +9,7 @@ import auth from "../utils/auth.ts";
 import {setError} from "../services/error.slice.ts";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {useNavigate} from "react-router-dom";
+import style from "./styles/Auth.module.css";
 
 const forgotPasswordSchema = object({
     email: string()
@@ -60,14 +61,7 @@ const ForgotPasswordPage = () => {
             </p>
 
             <form
-                className={'mb-20'}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 24,
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}
+                className={style.authForm + ' mb-20'}
                 onSubmit={handleSubmit(onSubmitHandler)}
             >
 
@@ -84,6 +78,7 @@ const ForgotPasswordPage = () => {
                             error={!!errors.email}
                             errorText={errors?.email?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="email"
                         />
                     )}
                 />
@@ -95,7 +90,7 @@ const ForgotPasswordPage = () => {
                 </Button>
             </form>
 
-            <div style={{textAlign: 'center'}}>
+            <div className={style.authLinkWrapper}>
                 <AuthLink text="Вспомнили пароль?" linkText="Войти" link="/login"/>
             </div>
         </>

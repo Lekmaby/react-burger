@@ -9,6 +9,7 @@ import auth from "../utils/auth.ts";
 import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
 import {setError} from "../services/error.slice.ts";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
+import style from './styles/Auth.module.css';
 
 const loginSchema = object({
     email: string()
@@ -64,14 +65,7 @@ const LoginPage = () => {
             </p>
 
             <form
-                className={'mb-20'}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 24,
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}
+                className={style.authForm + ' mb-20'}
                 onSubmit={handleSubmit(onSubmitHandler)}
             >
                 <Controller
@@ -87,6 +81,7 @@ const LoginPage = () => {
                             error={!!errors.email}
                             errorText={errors?.email?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="email"
                         />
                     )}
                 />
@@ -106,6 +101,7 @@ const LoginPage = () => {
                             error={!!errors.password}
                             errorText={errors?.password?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="current-password"
                         />
                     )}
                 />
@@ -117,7 +113,7 @@ const LoginPage = () => {
                 </Button>
             </form>
 
-            <div style={{textAlign: 'center'}}>
+            <div className={style.authLinkWrapper}>
                 <AuthLink text="Вы — новый пользователь?" linkText="Зарегистрироваться" link="/register"/>
                 <AuthLink text="Забыли пароль?" linkText="Восстановить пароль" link="/forgot-password"/>
             </div>
