@@ -29,6 +29,11 @@
     scroll-snap-align: start;
 }
 
+.ingredientLink {
+    color: var(--text-primary-color);
+    text-decoration: none;
+}
+
 .ingredientPrice {
     display: flex;
     align-items: center;

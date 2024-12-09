@@ -1,7 +1,8 @@
 import style from './IngredientDetails.module.css';
 import {useMemo} from "react";
-import {useAppSelector} from "../../hooks.ts";
-import {getIngredient} from "../../services/ingredient.slice.ts";
+import {useParams} from "react-router-dom";
+import {useGetIngredientsQuery} from "../../services/ingredient.api.ts";
+import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
 
 type IngredientInfoItem = {
     title: string;
@@ -9,7 +10,9 @@ type IngredientInfoItem = {
 };
 
 const IngredientDetails = () => {
-    const ingredient = useAppSelector(getIngredient);
+    const {id} = useParams<"id">();
+    const {isLoading, data: ingredients} = useGetIngredientsQuery();
+    const ingredient = useMemo(() => ingredients?.find((x) => x._id === id), [id, ingredients]);
 
     const infoItems: IngredientInfoItem[] = useMemo(() => {
         return [
@@ -18,14 +21,22 @@ const IngredientDetails = () => {
             {title: 'Жиры, г', value: ingredient?.fat ?? ''},
             {title: 'Углеводы, г', value: ingredient?.carbohydrates ?? ''},
         ];
-    }, [ingredient])
+    }, [ingredient]);
+
+    if (isLoading) {
+        return (
+            <div className="m-10">
+                <AppLoadingIndicator loading={isLoading}/>
+            </div>
+        );
+    }
 
     if (!ingredient) {
         return null;
     }
 
     return (
-        <>
+        <div className={style.IngredientContainer}>
             <img src={ingredient.image_large} alt={ingredient.name} className={style.IngredientImage}/>
 
             <p className="text text_type_main-medium pb-8">
@@ -48,7 +59,7 @@ const IngredientDetails = () => {
                         </li>)
                 }
             </ul>
-        </>
+        </div>
     );
 }
 

@@ -7,9 +7,12 @@ import {useMemo} from "react";
 import {Ingredient} from "../../types/ingredient.ts";
 import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {setError} from "../../services/error.slice.ts";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const BurgerConstructorSummary = () => {
     const dispatch = useAppDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
     const [addOrder, {isLoading}] = useAddOrderMutation();
     const ingredients: Ingredient[] = useAppSelector(getSelectedIngredients);
     const bun: Ingredient | null = useAppSelector(getSelectedBun);
@@ -19,8 +22,14 @@ const BurgerConstructorSummary = () => {
             dispatch(setError('Выберите булку'));
             return;
         }
+
         if (!ingredients.length) {
             dispatch(setError('Выберите ингредиенты'));
+            return;
+        }
+
+        if (!localStorage.getItem("accessToken")) {
+            navigate('/login', {state: {from: location}});
             return;
         }
 
