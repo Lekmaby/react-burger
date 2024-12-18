@@ -2,8 +2,9 @@ import OrderDetailsStatus from "./OrderDetailsStatus.tsx";
 import style from './OrderDetails.module.css';
 import {useAppSelector} from "../../hooks.ts";
 import {getOrder} from "../../services/order.slice.ts";
+import {FC} from "react";
 
-const OrderDetails = () => {
+const OrderDetails: FC = () => {
     const order = useAppSelector(getOrder);
 
     return (

@@ -1,6 +1,6 @@
 import {object, string, TypeOf} from "zod";
 import {useAppDispatch} from "../hooks.ts";
-import {useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useSelector} from "react-redux";
@@ -10,6 +10,8 @@ import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingInd
 import auth from "../utils/auth.ts";
 import {setError} from "../services/error.slice.ts";
 import style from './styles/Profile.module.css';
+import {AppDispatch} from "../store.ts";
+import {UserResponse} from "../types/userResponse.ts";
 
 const userUpdateSchema = object({
     name: string()
@@ -22,12 +24,12 @@ const userUpdateSchema = object({
 
 type UserUpdateForm = TypeOf<typeof userUpdateSchema>;
 
-const ProfileEditPage = () => {
-    const dispatch = useAppDispatch();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [passwordEdit, setPasswordEdit] = useState(false);
-    const [nameEdit, setNameEdit] = useState(false);
-    const [emailEdit, setEmailEdit] = useState(false);
+const ProfileEditPage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
+    const [nameEdit, setNameEdit] = useState<boolean>(false);
+    const [emailEdit, setEmailEdit] = useState<boolean>(false);
     const user = useSelector(getUser);
 
     const methods = useForm<UserUpdateForm>({
@@ -56,7 +58,7 @@ const ProfileEditPage = () => {
         setIsSubmitting(true);
 
         try {
-            const result = await auth.updateUser(values);
+            const result: UserResponse = await auth.updateUser(values);
             if (result.success) {
                 dispatch(setUser(result.user));
                 setIsSubmitting(false);

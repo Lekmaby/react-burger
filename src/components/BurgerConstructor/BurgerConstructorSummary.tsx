@@ -3,14 +3,15 @@ import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-comp
 import {useAddOrderMutation} from "../../services/orders.api.ts";
 import {useAppDispatch, useAppSelector} from "../../hooks.ts";
 import {getSelectedBun, getSelectedIngredients} from "../../services/burgerConstructor.slice.ts";
-import {useMemo} from "react";
+import {FC, useMemo} from "react";
 import {Ingredient} from "../../types/ingredient.ts";
 import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {setError} from "../../services/error.slice.ts";
 import {useLocation, useNavigate} from "react-router-dom";
+import {AppDispatch} from "../../store.ts";
 
-const BurgerConstructorSummary = () => {
-    const dispatch = useAppDispatch();
+const BurgerConstructorSummary: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const [addOrder, {isLoading}] = useAddOrderMutation();

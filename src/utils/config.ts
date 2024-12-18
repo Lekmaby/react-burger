@@ -1,4 +1,4 @@
-const config = {
+const config: Record<string, any> = {
     api: 'https://norma.nomoreparties.space/api',
 };
 

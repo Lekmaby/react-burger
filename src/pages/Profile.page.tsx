@@ -1,16 +1,17 @@
 import {NavLink, NavLinkRenderProps, Outlet} from "react-router-dom";
 import {setError} from "../services/error.slice.ts";
 import {useAppDispatch} from "../hooks.ts";
-import {useState} from "react";
+import {FC, useState} from "react";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {logout} from "../services/user.thunk.ts";
 import classNames from "classnames";
 import style from './styles/Profile.module.css';
+import type {AppDispatch} from "../store.ts";
 
-const ProfilePage = () => {
-    const dispatch = useAppDispatch();
+const ProfilePage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
     // const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const getClasses = (props: NavLinkRenderProps) => {
         return classNames({

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {FC, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import AuthLink from "../components/Auth/AuthLink.tsx";
 import {object, string, TypeOf} from "zod";
@@ -10,6 +10,8 @@ import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
 import {setError} from "../services/error.slice.ts";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import style from './styles/Auth.module.css';
+import type {AppDispatch} from "../store.ts";
+import {RegisterResponse} from "../types/registerResponse.ts";
 
 const loginSchema = object({
     email: string()
@@ -21,10 +23,10 @@ const loginSchema = object({
 
 type LoginForm = TypeOf<typeof loginSchema>;
 
-const LoginPage = () => {
-    const dispatch = useAppDispatch();
-    const [passwordShow, setPasswordShow] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const LoginPage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const methods = useForm<LoginForm>({
         resolver: zodResolver(loginSchema),
@@ -40,7 +42,7 @@ const LoginPage = () => {
         setIsSubmitting(true);
 
         try {
-            const result = await auth.login(values.email, values.password);
+            const result: RegisterResponse = await auth.login(values.email, values.password);
             if (result.success) {
                 localStorage.setItem("refreshToken", result.refreshToken);
                 localStorage.setItem("accessToken", result.accessToken);

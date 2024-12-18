@@ -7,8 +7,9 @@ import {getSelectedBun, getSelectedIngredients} from "../../services/burgerConst
 import {useDrop} from "react-dnd";
 import BurgerConstructorIngredient from "./BurgerConstructorIngredient.tsx";
 import BurgerConstructorNoIngredient from "./BurgerConstructorNoIngredient.tsx";
+import {FC} from "react";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
     const ingredients: Ingredient[] = useAppSelector(getSelectedIngredients);
     const bun: Ingredient | null = useAppSelector(getSelectedBun);
 

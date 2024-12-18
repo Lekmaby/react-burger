@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {FC, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import AuthLink from "../components/Auth/AuthLink.tsx";
 import {object, string, TypeOf} from "zod";
@@ -10,6 +10,8 @@ import {setError} from "../services/error.slice.ts";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {useNavigate} from "react-router-dom";
 import style from "./styles/Auth.module.css";
+import type {AppDispatch} from "../store.ts";
+import {DefaultResponse} from "../types/defaultResponse.ts";
 
 const forgotPasswordSchema = object({
     email: string()
@@ -19,10 +21,10 @@ const forgotPasswordSchema = object({
 
 type ForgotPasswordForm = TypeOf<typeof forgotPasswordSchema>;
 
-const ForgotPasswordPage = () => {
-    const dispatch = useAppDispatch();
+const ForgotPasswordPage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const methods = useForm<ForgotPasswordForm>({
         resolver: zodResolver(forgotPasswordSchema),
@@ -38,7 +40,7 @@ const ForgotPasswordPage = () => {
         setIsSubmitting(true);
 
         try {
-            const result = await auth.passwordReset(values.email);
+            const result: DefaultResponse = await auth.passwordReset(values.email);
             if (result.success) {
                 localStorage.setItem("forgotPassword", '1');
                 navigate('/reset-password');

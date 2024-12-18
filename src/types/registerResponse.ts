@@ -1,9 +1,8 @@
 import {User} from "./user.ts";
+import {DefaultResponse} from "./defaultResponse.ts";
 
 export type RegisterResponse = {
-    success: boolean,
     user: User,
     accessToken: string,
     refreshToken: string
-    message?: string
-};
+} & DefaultResponse;

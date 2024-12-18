@@ -1,6 +1,6 @@
+import {DefaultResponse} from "./defaultResponse.ts";
+
 export type TokenResponse = {
-    success: boolean,
-    message?: string,
     accessToken: string,
     refreshToken: string
-};
+} & DefaultResponse;

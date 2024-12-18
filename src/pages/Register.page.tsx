@@ -1,5 +1,5 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useState} from "react";
+import {FC, useState} from "react";
 import AuthLink from "../components/Auth/AuthLink.tsx";
 import {object, string, TypeOf} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -10,6 +10,8 @@ import {useAppDispatch} from "../hooks.ts";
 import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
 import {setError} from "../services/error.slice.ts";
 import style from './styles/Auth.module.css';
+import {AppDispatch} from "../store.ts";
+import {RegisterResponse} from "../types/registerResponse.ts";
 
 const registerSchema = object({
     name: string()
@@ -23,10 +25,10 @@ const registerSchema = object({
 
 type RegisterForm = TypeOf<typeof registerSchema>;
 
-const RegisterPage = () => {
-    const dispatch = useAppDispatch();
-    const [passwordShow, setPasswordShow] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const RegisterPage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const methods = useForm<RegisterForm>({
         resolver: zodResolver(registerSchema),
@@ -42,7 +44,7 @@ const RegisterPage = () => {
         setIsSubmitting(true);
 
         try {
-            const result = await auth.register(values.email, values.password, values.name);
+            const result: RegisterResponse = await auth.register(values.email, values.password, values.name);
             if (result.success) {
                 localStorage.setItem("refreshToken", result.refreshToken);
                 localStorage.setItem("accessToken", result.accessToken);

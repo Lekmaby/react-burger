@@ -1,5 +1,5 @@
 import style from './BurgerIngredients.module.css';
-import {useMemo} from "react";
+import {FC, useMemo} from "react";
 import {Ingredient} from "../../types/ingredient.ts";
 import {TabItem} from "./BurgerIngredients.tsx";
 import BurgerIngredient from "./BurgerIngredient.tsx";
@@ -10,7 +10,7 @@ type BurgerCategoryProps = {
     counters: Record<string, number>,
 };
 
-const BurgerCategory = ({tab, counters}: BurgerCategoryProps) => {
+const BurgerCategory: FC<BurgerCategoryProps> = ({tab, counters}) => {
     const {data: ingredients} = useGetIngredientsQuery();
 
     const thisCategoryIngredients = useMemo(() =>

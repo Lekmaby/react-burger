@@ -2,8 +2,9 @@ import style from './AppHeader.module.css';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, NavLinkRenderProps} from "react-router-dom";
 import classNames from 'classnames';
+import {FC} from "react";
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
     const getClasses = (props: NavLinkRenderProps) => {
         return classNames({
             [style.navLink]: true,
