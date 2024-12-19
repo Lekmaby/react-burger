@@ -1,5 +1,5 @@
 import style from './BurgerConstructor.module.css';
-import React from "react";
+import React, {FC} from "react";
 
 type BurgerConstructorNoIngredientProps = {
     type?: 'bottom' | 'top',
@@ -7,7 +7,7 @@ type BurgerConstructorNoIngredientProps = {
     styles?: React.CSSProperties
 };
 
-const BurgerConstructorNoIngredient = ({type, text, styles = {}}: BurgerConstructorNoIngredientProps) => {
+const BurgerConstructorNoIngredient: FC<BurgerConstructorNoIngredientProps> = ({type, text, styles = {}}) => {
 
     return (
         <div

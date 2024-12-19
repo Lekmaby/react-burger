@@ -1,12 +1,13 @@
 import {CheckMarkIcon, CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './OrderDetails.module.css';
 import bgImage from '../../assets/images/orderStatus.svg';
+import {FC} from "react";
 
 type OrderDetailsStatusProps = {
     status?: 'success' | 'error';
 };
 
-const OrderDetailsStatus = ({status = 'success'}: OrderDetailsStatusProps) => {
+const OrderDetailsStatus: FC<OrderDetailsStatusProps> = ({status = 'success'}) => {
     return (
         <div className={style.OrderDetailsStatus}
              style={{backgroundImage: `url(${bgImage})`}}

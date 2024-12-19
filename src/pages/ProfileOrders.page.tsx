@@ -1,4 +1,6 @@
-const ProfileOrdersPage = () => {
+import {FC} from "react";
+
+const ProfileOrdersPage: FC = () => {
     return (
         <div>
             <p className="text text_type_main-large mb-5">

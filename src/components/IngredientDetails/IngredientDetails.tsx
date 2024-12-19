@@ -1,5 +1,5 @@
 import style from './IngredientDetails.module.css';
-import {useMemo} from "react";
+import {FC, useMemo} from "react";
 import {useParams} from "react-router-dom";
 import {useGetIngredientsQuery} from "../../services/ingredient.api.ts";
 import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
@@ -9,7 +9,7 @@ type IngredientInfoItem = {
     value: string | number;
 };
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
     const {id} = useParams<"id">();
     const {isLoading, data: ingredients} = useGetIngredientsQuery();
     const ingredient = useMemo(() => ingredients?.find((x) => x._id === id), [id, ingredients]);

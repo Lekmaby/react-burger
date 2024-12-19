@@ -3,9 +3,10 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import {Ingredient} from "../../types/ingredient.ts";
 import {useAppDispatch} from "../../hooks.ts";
 import {moveIngredient, removeIngredient} from "../../services/burgerConstructor.slice.ts";
-import {useRef} from "react";
+import {FC, useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
 import type {Identifier, XYCoord} from 'dnd-core';
+import {AppDispatch} from "../../store.ts";
 
 interface DragItem {
     index: number
@@ -17,8 +18,8 @@ type BurgerConstructorIngredientProps = {
     index: number
 };
 
-const BurgerConstructorIngredient = ({ingredient, index}: BurgerConstructorIngredientProps) => {
-    const dispatch = useAppDispatch();
+const BurgerConstructorIngredient: FC<BurgerConstructorIngredientProps> = ({ingredient, index}) => {
+    const dispatch: AppDispatch = useAppDispatch();
     const ref = useRef<HTMLLIElement>(null)
 
     const [{handlerId}, drop] = useDrop<

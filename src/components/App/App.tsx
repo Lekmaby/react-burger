@@ -22,12 +22,13 @@ import NotFoundPage from "../../pages/NotFound.page.tsx";
 import IngredientPage from "../../pages/Ingredient.page.tsx";
 import ProtectedRoute, {UnAuthRoute} from "../ProtectedRoute.tsx";
 import {checkUserAuth} from "../../services/user.thunk.ts";
-import {useEffect} from "react";
+import {FC, useEffect} from "react";
+import {AppDispatch} from "../../store.ts";
 
-function App() {
-    const dispatch = useAppDispatch();
-    const orderIsOpened = useAppSelector(getOrderIsOpened);
-    const error = useAppSelector(getError);
+const App: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
+    const orderIsOpened: boolean = useAppSelector(getOrderIsOpened);
+    const error: string | null = useAppSelector(getError);
     const location = useLocation();
     const navigate = useNavigate();
     const state = location.state as { backgroundLocation?: Location };

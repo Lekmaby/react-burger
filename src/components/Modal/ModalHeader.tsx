@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React, {FC, ReactNode} from "react";
 import style from './Modal.module.css';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -7,7 +7,7 @@ type ModalHeaderProps = {
     onClose: () => void
 };
 
-const ModalHeader = ({children, onClose}: ModalHeaderProps) => {
+const ModalHeader: FC<ModalHeaderProps> = ({children, onClose}) => {
     return (
         <div className={style.ModalHeader}>
             <div className={style.ModalHeaderTitle + ' text text_type_main-large'}>

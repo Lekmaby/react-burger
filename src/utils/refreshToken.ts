@@ -5,7 +5,7 @@ import {TokenResponse} from "../types/tokenResponse.ts";
 import {BaseQueryFn, FetchArgs, FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {DefaultResponse} from "../types/defaultResponse.ts";
 
-const refreshTokenFn = async () => {
+const refreshTokenFn = async (): Promise<TokenResponse | undefined> => {
     try {
         const refreshData: TokenResponse = await auth.token();
 
@@ -23,7 +23,7 @@ const refreshTokenFn = async () => {
     }
 };
 
-const maxAge = 10000;
+const maxAge: number = 10000;
 
 export const memoizedRefreshToken = mem(refreshTokenFn, {
     maxAge,

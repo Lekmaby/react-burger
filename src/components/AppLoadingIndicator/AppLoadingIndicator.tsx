@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {FC, useMemo} from "react";
 import style from './AppLoadingIndicator.module.css';
 
 type AppLoaderProps = {
@@ -6,7 +6,7 @@ type AppLoaderProps = {
     size?: number;
 };
 
-const AppLoadingIndicator = ({loading = true, size = 30}: AppLoaderProps) => {
+const AppLoadingIndicator: FC<AppLoaderProps> = ({loading = true, size = 30}) => {
     const spinnerWidth = useMemo(() => Math.round(size / 3), [size])
 
     if (!loading) {

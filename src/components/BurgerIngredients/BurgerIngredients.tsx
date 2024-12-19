@@ -1,6 +1,6 @@
 import style from './BurgerIngredients.module.css';
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useCallback, useMemo, useRef} from "react";
+import React, {FC, useCallback, useMemo, useRef} from "react";
 import {IngredientTypeEnum} from "../../enum/ingredient-type.enum.ts";
 import {Ingredient} from "../../types/ingredient.ts";
 import ingredientUtil from "../../utils/ingredientUtil.ts";
@@ -16,12 +16,12 @@ export type TabItem = {
     id: string
 };
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
     const {isLoading, data: ingredients} = useGetIngredientsQuery();
     const burgerIngredients: Ingredient[] = useAppSelector(getSelectedIngredients);
     const bun: Ingredient | null = useAppSelector(getSelectedBun);
 
-    const [tab, setTab] = React.useState(IngredientTypeEnum.BUN);
+    const [tab, setTab] = React.useState<IngredientTypeEnum>(IngredientTypeEnum.BUN);
     const tabRef = useRef<HTMLDivElement | null>(null);
 
 

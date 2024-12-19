@@ -1,24 +1,26 @@
 import {NavLink, NavLinkRenderProps, Outlet} from "react-router-dom";
-import style from "../components/AppHeader/AppHeader.module.css";
 import {setError} from "../services/error.slice.ts";
 import {useAppDispatch} from "../hooks.ts";
-import {useState} from "react";
+import {FC, useState} from "react";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {logout} from "../services/user.thunk.ts";
+import classNames from "classnames";
+import style from './styles/Profile.module.css';
+import type {AppDispatch} from "../store.ts";
 
-const ProfilePage = () => {
-    const dispatch = useAppDispatch();
+const ProfilePage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
     // const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const getClasses = (props: NavLinkRenderProps) => {
-        let result = style.navLink + ' text text_type_main-medium';
-
-        if (!props.isActive) {
-            result += ' text_color_inactive';
-        }
-
-        return result;
+        return classNames({
+            [style.profileMenuNavItem]: true,
+            [style.profileMenuItem]: true,
+            text: true,
+            'text_type_main-medium': true,
+            text_color_inactive: !props.isActive,
+        });
     }
 
     const logoutHandler = async () => {
@@ -27,8 +29,7 @@ const ProfilePage = () => {
         }
         setIsSubmitting(true);
         try {
-            const result = await dispatch(logout());
-            console.log('result', result);
+            await dispatch(logout());
             setIsSubmitting(false);
         } catch (e: any) {
             console.error(e);
@@ -39,32 +40,21 @@ const ProfilePage = () => {
 
     return (
         <div
-            className="pt-10"
-            style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 60,
-                justifyContent: 'flex-start',
-                margin: '0 auto',
-                height: '100%',
-                width: '100%'
-            }}>
-            <div style={{display: 'flex', flexDirection: 'column', width: 320}}>
+            className={style.profileWrapper + ' pt-10'}
+        >
+            <div className={style.profileMenuWrapper}>
                 <NavLink className={getClasses}
-                         style={{height: 64, display: "flex", alignItems: 'center'}}
                          to={'/profile/edit'}>
                     Профиль
                 </NavLink>
 
                 <NavLink className={getClasses}
-                         style={{height: 64, display: "flex", alignItems: 'center'}}
                          to={'/profile/orders'}
                 >
                     История заказов
                 </NavLink>
 
-                <a className="text text_type_main-medium text_color_inactive"
-                   style={{height: 64, display: "flex", alignItems: 'center', cursor: 'pointer'}}
+                <a className={style.profileMenuItem + ' text text_type_main-medium text_color_inactive'}
                    onClick={logoutHandler}
                 >
                     Выход

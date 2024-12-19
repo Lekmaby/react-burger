@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from "react";
+import React, {FC, ReactNode, useEffect} from "react";
 import style from './Modal.module.css';
 import {createPortal} from "react-dom";
 import ModalHeader from "./ModalHeader.tsx";
@@ -12,7 +12,7 @@ type ModalProps = {
     onClose: () => void
 };
 
-const Modal = ({title = '', children, onClose}: ModalProps) => {
+const Modal: FC<ModalProps> = ({title = '', children, onClose}) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -26,7 +26,6 @@ const Modal = ({title = '', children, onClose}: ModalProps) => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [onClose]);
-
 
     if (!modalRoot) {
         console.error('No modalRoot element with id="react-modals"');

@@ -2,15 +2,15 @@ import {Navigate, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getIsAuthChecked, getUser} from "../services/user.slice.ts";
 import AppLoadingIndicator from "./AppLoadingIndicator/AppLoadingIndicator.tsx";
-import React from "react";
+import React, {FC} from "react";
 
 type TProtectedProps = {
     onlyUnAuth?: boolean;
     component: React.JSX.Element;
 }
 
-const ProtectedRoute = ({onlyUnAuth = false, component}: TProtectedProps): React.JSX.Element => {
-    const isAuthChecked = useSelector(getIsAuthChecked);
+const ProtectedRoute: FC<TProtectedProps> = ({onlyUnAuth = false, component}): React.JSX.Element => {
+    const isAuthChecked: boolean = useSelector(getIsAuthChecked);
     const user = useSelector(getUser);
     const location = useLocation();
 

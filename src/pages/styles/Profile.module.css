@@ -1,0 +1,47 @@
+.profileEditBtnWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.profileEditForm {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profileWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+    justify-content: flex-start;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+
+.profileMenuWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+}
+
+.profileMenuItem {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profileMenuNavItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    text-decoration: inherit;
+    color: inherit;
+}

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import AuthLink from "../components/Auth/AuthLink.tsx";
 import {object, string, TypeOf} from "zod";
@@ -9,6 +9,9 @@ import auth from "../utils/auth.ts";
 import {setError} from "../services/error.slice.ts";
 import {useNavigate} from "react-router-dom";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
+import style from './styles/Auth.module.css';
+import {AppDispatch} from "../store.ts";
+import {DefaultResponse} from "../types/defaultResponse.ts";
 
 const resetPasswordSchema = object({
     code: string()
@@ -19,11 +22,11 @@ const resetPasswordSchema = object({
 
 type ResetPasswordForm = TypeOf<typeof resetPasswordSchema>;
 
-const ResetPasswordPage = () => {
-    const dispatch = useAppDispatch();
+const ResetPasswordPage: FC = () => {
+    const dispatch: AppDispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [passwordShow, setPasswordShow] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     useEffect(() => {
         const forgotPassword = localStorage.getItem("forgotPassword");
@@ -46,7 +49,7 @@ const ResetPasswordPage = () => {
         setIsSubmitting(true);
 
         try {
-            const result = await auth.passwordResetReset(values.password, values.code);
+            const result: DefaultResponse = await auth.passwordResetReset(values.password, values.code);
             if (result.success) {
                 localStorage.removeItem("forgotPassword");
                 navigate('/login');
@@ -69,14 +72,7 @@ const ResetPasswordPage = () => {
             </p>
 
             <form
-                className={'mb-20'}
-                style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 24,
-                justifyContent: 'space-between',
-                alignItems: 'center'
-                }}
+                className={style.authForm + ' mb-20'}
                 onSubmit={handleSubmit(onSubmitHandler)}
             >
 
@@ -95,6 +91,7 @@ const ResetPasswordPage = () => {
                             error={!!errors.password}
                             errorText={errors?.password?.message ?? ''}
                             disabled={isSubmitting}
+                            autoComplete="new-password"
                         />
                     )}
                 />
@@ -123,7 +120,7 @@ const ResetPasswordPage = () => {
                 </Button>
             </form>
 
-            <div style={{textAlign: 'center'}}>
+            <div className={style.authLinkWrapper}>
                 <AuthLink text="Вспомнили пароль?" linkText="Войти" link="/login"/>
             </div>
         </>

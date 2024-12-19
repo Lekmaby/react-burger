@@ -1,7 +1,8 @@
 import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients.tsx";
 import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor.tsx";
+import {FC} from "react";
 
-const HomePage = () => {
+const HomePage: FC = () => {
     return (
         <div style={{
             display: 'flex',

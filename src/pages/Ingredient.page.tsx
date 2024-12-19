@@ -1,6 +1,7 @@
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails.tsx";
+import {FC} from "react";
 
-const IngredientPage = () => {
+const IngredientPage: FC = () => {
     return (
         <div>
             <p className="text text_type_main-large mb-6" style={{textAlign: 'center'}}>

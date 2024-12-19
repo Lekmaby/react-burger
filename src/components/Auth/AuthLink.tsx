@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import {FC} from "react";
 
 type AuthLinkProps = {
     text: string;
@@ -6,7 +7,7 @@ type AuthLinkProps = {
     linkText: string;
 };
 
-const AuthLink = ({text, link, linkText}: AuthLinkProps) => {
+const AuthLink: FC<AuthLinkProps> = ({text, link, linkText}) => {
     return (
         <p className="text text_type_main-default text_color_inactive mb-4">
             <span className="mr-2">{text}</span>
