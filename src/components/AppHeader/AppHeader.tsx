@@ -30,7 +30,7 @@ const AppHeader: FC = () => {
                             </NavLink>
                         </li>
                         <li className={style.navItem}>
-                            <NavLink to={"/orders"}
+                            <NavLink to={"/feed"}
                                      className={getClasses}>
                                 {({isActive}) => (
                                     <>

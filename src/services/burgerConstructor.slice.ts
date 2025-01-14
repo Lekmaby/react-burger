@@ -1,4 +1,4 @@
-import type {PayloadAction} from '@reduxjs/toolkit'
+import type {ActionReducerMapBuilder, PayloadAction} from '@reduxjs/toolkit'
 import {createSlice} from '@reduxjs/toolkit'
 import {Ingredient} from "../types/ingredient.ts";
 import {v4 as uuidv4} from 'uuid';
@@ -19,12 +19,12 @@ export const burgerConstructorSlice = createSlice({
     name: 'burgerConstructor',
     initialState,
     selectors: {
-        getSelectedBun: state => state.bun,
-        getSelectedIngredients: state => state.ingredients,
+        getSelectedBun: (state: BurgerConstructorState) => state.bun,
+        getSelectedIngredients: (state: BurgerConstructorState) => state.ingredients,
     },
     reducers: {
         addIngredient: {
-            reducer: (state, action: PayloadAction<Ingredient>) => {
+            reducer: (state: BurgerConstructorState, action: PayloadAction<Ingredient>) => {
                 if (action.payload.type === IngredientTypeEnum.BUN) {
                     state.bun = action.payload;
                 } else {
@@ -35,14 +35,17 @@ export const burgerConstructorSlice = createSlice({
                 return {payload: {...ingredient, _key: uuidv4()}};
             }
         },
-        removeIngredient: (state, action: PayloadAction<Ingredient>) => {
+        removeIngredient: (state: BurgerConstructorState, action: PayloadAction<Ingredient>) => {
             state.ingredients = state.ingredients.filter(x => x._key !== action.payload._key);
         },
-        moveIngredient: (state, action: PayloadAction<{ fromIndex: number, toIndex: number }>) => {
+        moveIngredient: (state: BurgerConstructorState, action: PayloadAction<{
+            fromIndex: number,
+            toIndex: number
+        }>) => {
             state.ingredients.splice(action.payload.toIndex, 0, state.ingredients.splice(action.payload.fromIndex, 1)[0])
         }
     },
-    extraReducers: (builder) => {
+    extraReducers: (builder: ActionReducerMapBuilder<BurgerConstructorState>) => {
         builder.addMatcher(
             orderApi.endpoints.addOrder.matchFulfilled,
             () => {

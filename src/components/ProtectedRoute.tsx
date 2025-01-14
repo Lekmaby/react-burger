@@ -1,8 +1,9 @@
-import {Navigate, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {Location, Navigate, useLocation} from "react-router-dom";
 import {getIsAuthChecked, getUser} from "../services/user.slice.ts";
 import AppLoadingIndicator from "./AppLoadingIndicator/AppLoadingIndicator.tsx";
 import React, {FC} from "react";
+import {useAppSelector} from "../hooks.ts";
+import {User} from "../types/user.ts";
 
 type TProtectedProps = {
     onlyUnAuth?: boolean;
@@ -10,9 +11,9 @@ type TProtectedProps = {
 }
 
 const ProtectedRoute: FC<TProtectedProps> = ({onlyUnAuth = false, component}): React.JSX.Element => {
-    const isAuthChecked: boolean = useSelector(getIsAuthChecked);
-    const user = useSelector(getUser);
-    const location = useLocation();
+    const isAuthChecked: boolean = useAppSelector(getIsAuthChecked);
+    const user: User | null = useAppSelector(getUser);
+    const location: Location = useLocation();
 
     if (!isAuthChecked) {
         return <div className="m-10">

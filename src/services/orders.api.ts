@@ -5,7 +5,7 @@ import {getBaseQueryWithReauth} from "../utils/refreshToken.ts";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: config.api,
-    prepareHeaders: (headers) => {
+    prepareHeaders: (headers: Headers) => {
         headers.set("Content-Type", "application/json");
         headers.set("authorization", localStorage.getItem("accessToken") ?? '');
 
@@ -28,7 +28,16 @@ export const orderApi = createApi({
                 return rawResult.success ? rawResult.order : null;
             },
         }),
+        getOrder: builder.mutation({
+            query: (id: string) => ({
+                url: '/orders/' + id,
+                method: 'GET'
+            }),
+            transformResponse: (rawResult: { success: boolean, orders: Order[] }): Order | null => {
+                return rawResult.success ? rawResult.orders[0] : null;
+            },
+        }),
     }),
 })
 
-export const {useAddOrderMutation} = orderApi;
+export const {useAddOrderMutation, useGetOrderMutation} = orderApi;

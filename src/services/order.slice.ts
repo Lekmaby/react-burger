@@ -17,15 +17,15 @@ export const orderSlice = createSlice({
     name: 'order',
     initialState,
     selectors: {
-        getOrderIsOpened: state => state.opened,
-        getOrder: state => state.order,
+        getOrderIsOpened: (state: OrderState) => state.opened,
+        getOrder: (state: OrderState) => state.order,
     },
     reducers: {
-        setOrder: (state, action: PayloadAction<Order>) => {
+        setOrder: (state: OrderState, action: PayloadAction<Order>) => {
             state.opened = true;
             state.order = action.payload;
         },
-        orderClosed: (state) => {
+        orderClosed: (state: OrderState) => {
             state.opened = false;
             state.order = null;
         },
@@ -33,11 +33,20 @@ export const orderSlice = createSlice({
     extraReducers: (builder) => {
         builder.addMatcher(
             orderApi.endpoints.addOrder.matchFulfilled,
-            (state, {payload}: PayloadAction<Order | null>) => {
+            (state: OrderState, {payload}: PayloadAction<Order | null>) => {
                 state.opened = true;
                 state.order = payload;
             }
-        )
+        );
+
+        builder.addMatcher(
+            orderApi.endpoints.getOrder.matchFulfilled,
+            (state: OrderState, {payload}: PayloadAction<Order | null>) => {
+                if (payload) {
+                    state.order = payload;
+                }
+            }
+        );
     },
 })
 

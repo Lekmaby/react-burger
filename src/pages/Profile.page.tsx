@@ -1,4 +1,4 @@
-import {NavLink, NavLinkRenderProps, Outlet} from "react-router-dom";
+import {matchPath, NavLink, NavLinkRenderProps, Outlet, useLocation} from "react-router-dom";
 import {setError} from "../services/error.slice.ts";
 import {useAppDispatch} from "../hooks.ts";
 import {FC, useState} from "react";
@@ -12,6 +12,10 @@ const ProfilePage: FC = () => {
     const dispatch: AppDispatch = useAppDispatch();
     // const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const {pathname} = useLocation();
+
+    const isOrderHistory = matchPath('/profile/orders', pathname);
+    const isProfileEdit = matchPath('/profile/edit', pathname);
 
     const getClasses = (props: NavLinkRenderProps) => {
         return classNames({
@@ -20,6 +24,7 @@ const ProfilePage: FC = () => {
             text: true,
             'text_type_main-medium': true,
             text_color_inactive: !props.isActive,
+            [style.profileMenuNavItemActive]: props.isActive,
         });
     }
 
@@ -39,9 +44,7 @@ const ProfilePage: FC = () => {
     }
 
     return (
-        <div
-            className={style.profileWrapper + ' pt-10'}
-        >
+        <div className={style.profileWrapper + ' pt-10'}>
             <div className={style.profileMenuWrapper}>
                 <NavLink className={getClasses}
                          to={'/profile/edit'}>
@@ -63,7 +66,14 @@ const ProfilePage: FC = () => {
                 </a>
 
                 <div className="text text_type_main-default text_color_inactive mt-20" style={{height: 64}}>
-                    В этом разделе вы можете изменить свои персональные данные
+                    {
+                        isOrderHistory &&
+                        'В этом разделе вы можете просмотреть свою историю заказов'
+                    }
+                    {
+                        isProfileEdit &&
+                        'В этом разделе вы можете изменить свои персональные данные'
+                    }
                 </div>
             </div>
 

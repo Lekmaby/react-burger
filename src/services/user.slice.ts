@@ -17,26 +17,26 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     selectors: {
-        getIsAuthChecked: (state) => state.isAuthChecked,
-        getUser: (state) => state.user,
+        getIsAuthChecked: (state: UserState) => state.isAuthChecked,
+        getUser: (state: UserState) => state.user,
     },
     reducers: {
-        setIsAuthChecked: (state, action: PayloadAction<boolean>) => {
+        setIsAuthChecked: (state: UserState, action: PayloadAction<boolean>) => {
             state.isAuthChecked = action.payload;
         },
-        setUser: (state, action: PayloadAction<User | null>) => {
+        setUser: (state: UserState, action: PayloadAction<User | null>) => {
             state.user = action.payload;
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(logout.fulfilled, (state) => {
+            .addCase(logout.fulfilled, (state: UserState) => {
                 state.user = null;
 
                 localStorage.removeItem("refreshToken");
                 localStorage.removeItem("accessToken");
             })
-            .addCase(logout.rejected, (state) => {
+            .addCase(logout.rejected, (state: UserState) => {
                 state.user = null;
 
                 localStorage.removeItem("refreshToken");

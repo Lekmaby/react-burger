@@ -9,7 +9,7 @@ import {getError, resetError} from "../../services/error.slice.ts";
 import AppError from "../AppError/AppError.tsx";
 import HomePage from "../../pages/Home.page.tsx";
 import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import OrdersPage from "../../pages/Orders.page.tsx";
+import FeedPage from "../../pages/FeedPage.tsx";
 import LoginPage from "../../pages/Login.page.tsx";
 import ForgotPasswordPage from "../../pages/ForgotPassword.page.tsx";
 import RegisterPage from "../../pages/Register.page.tsx";
@@ -17,13 +17,13 @@ import ResetPasswordPage from "../../pages/ResetPassword.page.tsx";
 import ProfilePage from "../../pages/Profile.page.tsx";
 import ProfileOrdersPage from "../../pages/ProfileOrders.page.tsx";
 import ProfileEditPage from "../../pages/ProfileEdit.page.tsx";
-import ProfileOrderDetailPage from "../../pages/ProfileOrderDetail.page.tsx";
 import NotFoundPage from "../../pages/NotFound.page.tsx";
 import IngredientPage from "../../pages/Ingredient.page.tsx";
 import ProtectedRoute, {UnAuthRoute} from "../ProtectedRoute.tsx";
 import {checkUserAuth} from "../../services/user.thunk.ts";
 import {FC, useEffect} from "react";
 import {AppDispatch} from "../../store.ts";
+import OrderInfo from "../OrderInfo/OrderInfo.tsx";
 
 const App: FC = () => {
     const dispatch: AppDispatch = useAppDispatch();
@@ -44,7 +44,8 @@ const App: FC = () => {
             <main className={style.main}>
                 <Routes location={state?.backgroundLocation || location}>
                     <Route path="/" element={<HomePage/>}/>
-                    <Route path="/orders" element={<ProtectedRoute component={<OrdersPage/>}/>}/>
+                    <Route path="/feed" element={<FeedPage/>}/>
+                    <Route path="/feed/:id" element={<OrderInfo/>}/>
                     <Route path="/ingredients/:id" element={<IngredientPage/>}/>
 
                     <Route path="/login" element={<UnAuthRoute component={<LoginPage/>}/>}/>
@@ -56,7 +57,7 @@ const App: FC = () => {
                         <Route index element={<Navigate to="/profile/edit" replace/>}/>
                         <Route path="edit" element={<ProfileEditPage/>}/>
                         <Route path="orders" element={<ProfileOrdersPage/>}/>
-                        <Route path="orders/:number" element={<ProfileOrderDetailPage/>}/>
+                        <Route path="orders/:id" element={<OrderInfo/>}/>
                     </Route>
 
                     <Route path="*" element={<NotFoundPage/>}/>
@@ -71,6 +72,20 @@ const App: FC = () => {
                             }}
                         >
                             <IngredientDetails/>
+                        </Modal>}/>
+                        <Route path="/profile/orders/:id" element={<Modal
+                            onClose={() => {
+                                navigate(-1);
+                            }}
+                        >
+                            <OrderInfo/>
+                        </Modal>}/>
+                        <Route path="/feed/:id" element={<Modal
+                            onClose={() => {
+                                navigate(-1);
+                            }}
+                        >
+                            <OrderInfo/>
                         </Modal>}/>
                     </Routes>
                 )}
