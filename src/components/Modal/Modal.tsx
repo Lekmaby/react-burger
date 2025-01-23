@@ -27,6 +27,14 @@ const Modal: FC<ModalProps> = ({title = '', children, onClose}) => {
         };
     }, [onClose]);
 
+    useEffect(() => {
+        document.body.style.overflowY = 'hidden';
+
+        return () => {
+            document.body.style.overflowY = 'auto';
+        }
+    }, []);
+
     if (!modalRoot) {
         console.error('No modalRoot element with id="react-modals"');
         return;

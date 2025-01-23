@@ -1,9 +1,8 @@
 import {object, string, TypeOf} from "zod";
-import {useAppDispatch} from "../hooks.ts";
+import {useAppDispatch, useAppSelector} from "../hooks.ts";
 import {FC, useEffect, useState} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useSelector} from "react-redux";
 import {getUser, setUser} from "../services/user.slice.ts";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
@@ -12,6 +11,7 @@ import {setError} from "../services/error.slice.ts";
 import style from './styles/Profile.module.css';
 import {AppDispatch} from "../store.ts";
 import {UserResponse} from "../types/userResponse.ts";
+import {User} from "../types/user.ts";
 
 const userUpdateSchema = object({
     name: string()
@@ -30,7 +30,7 @@ const ProfileEditPage: FC = () => {
     const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
     const [nameEdit, setNameEdit] = useState<boolean>(false);
     const [emailEdit, setEmailEdit] = useState<boolean>(false);
-    const user = useSelector(getUser);
+    const user: User | null = useAppSelector(getUser);
 
     const methods = useForm<UserUpdateForm>({
         resolver: zodResolver(userUpdateSchema),

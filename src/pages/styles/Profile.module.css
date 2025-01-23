@@ -43,5 +43,8 @@
     align-items: center;
     gap: 8px;
     text-decoration: inherit;
-    color: inherit;
+}
+
+.profileMenuNavItemActive {
+    color: white;
 }

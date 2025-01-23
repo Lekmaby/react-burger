@@ -1,0 +1,25 @@
+.statNumber {
+    text-shadow: 0 4px 16px #3333FF;
+}
+
+.readyOrderNumber {
+    color: var(--colors-interface-success);
+}
+
+.FeedStatContainer {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 104px 20px 0;
+    gap: 60px;
+}
+
+.FeedStatOrders {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 36px;
+}

@@ -16,13 +16,13 @@ export const errorSlice = createSlice({
     name: 'error',
     initialState,
     selectors: {
-        getError: state => state.error,
+        getError: (state: ErrorState) => state.error,
     },
     reducers: {
-        setError: (state, action: PayloadAction<string>) => {
+        setError: (state: ErrorState, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
-        setQueryError: (state, action: PayloadAction<FetchBaseQueryError | undefined>) => {
+        setQueryError: (state: ErrorState, action: PayloadAction<FetchBaseQueryError | undefined>) => {
             state.error = action.payload ? JSON.stringify(action.payload.data, null, 2) : 'Неизвестная ошибка';
         },
         resetError: () => initialState,
@@ -30,13 +30,13 @@ export const errorSlice = createSlice({
     extraReducers: (builder) => {
         builder.addMatcher(
             orderApi.endpoints.addOrder.matchRejected,
-            (state, action) => {
+            (state: ErrorState, action) => {
                 errorSlice.caseReducers.setQueryError(state, action);
             }
         )
         builder.addMatcher(
             ingredientApi.endpoints.getIngredients.matchRejected,
-            (state, action) => {
+            (state: ErrorState, action) => {
                 errorSlice.caseReducers.setQueryError(state, action);
             }
         )

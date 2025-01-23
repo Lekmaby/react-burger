@@ -1,0 +1,9 @@
+.FeedPageContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: space-between;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}

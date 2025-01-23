@@ -1,0 +1,85 @@
+.OrdersList {
+    height: 100%;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    padding-right: 8px;
+}
+
+.OrderItem {
+    padding: 24px;
+    margin-bottom: 16px;
+    border-radius: 40px;
+    background-color: var(--color-modal-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    max-width: 600px;
+    scroll-snap-align: start;
+    cursor: pointer;
+}
+
+.OrderHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.OrderPrice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.OrderFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.OrderIngredients {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.IngredientContainer {
+    width: 64px;
+    height: 64px;
+    position: relative;
+    background: linear-gradient(to right, #801AB2, #4C4CFF);
+    border-radius: 50%;
+    padding: 2px;
+}
+
+.IngredientImage {
+    width: 60px;
+    height: 60px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background-color: var(--color-bg);
+}
+
+.IngredientOverlayText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+}

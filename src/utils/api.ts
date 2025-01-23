@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from "axios";
+import axios, {AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import config from "./config.ts";
 import {memoizedRefreshToken} from "./refreshToken";
 
@@ -10,7 +10,7 @@ const api: AxiosInstance = axios.create({
 });
 
 api.interceptors.request.use(
-    async (config) => {
+    async (config: InternalAxiosRequestConfig) => {
         const accessToken: string | null = localStorage.getItem("accessToken");
 
         if (accessToken) {
@@ -24,7 +24,7 @@ api.interceptors.request.use(
 
 
 api.interceptors.response.use(
-    (response) => response,
+    (response: AxiosResponse) => response,
     async (error) => {
         const config = error?.config;
 
@@ -47,7 +47,7 @@ api.interceptors.response.use(
     }
 );
 
-api.interceptors.response.use(function (response) {
+api.interceptors.response.use(function (response: AxiosResponse) {
     return response?.data ?? response;
 });
 
