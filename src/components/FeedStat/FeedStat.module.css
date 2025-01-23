@@ -23,3 +23,8 @@
     width: 100%;
     gap: 36px;
 }
+
+.FeedStatColumn {
+    display: flex;
+    gap: 8px;
+}

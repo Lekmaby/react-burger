@@ -10,7 +10,6 @@ import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
 import {setError} from "../services/error.slice.ts";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import style from './styles/Auth.module.css';
-import type {AppDispatch} from "../store.ts";
 import {RegisterResponse} from "../types/registerResponse.ts";
 
 const loginSchema = object({
@@ -24,7 +23,7 @@ const loginSchema = object({
 type LoginForm = TypeOf<typeof loginSchema>;
 
 const LoginPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const [passwordShow, setPasswordShow] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 

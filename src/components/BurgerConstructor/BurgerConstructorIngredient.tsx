@@ -6,7 +6,6 @@ import {moveIngredient, removeIngredient} from "../../services/burgerConstructor
 import {FC, useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
 import type {Identifier, XYCoord} from 'dnd-core';
-import {AppDispatch} from "../../store.ts";
 
 interface DragItem {
     index: number
@@ -19,7 +18,7 @@ type BurgerConstructorIngredientProps = {
 };
 
 const BurgerConstructorIngredient: FC<BurgerConstructorIngredientProps> = ({ingredient, index}) => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const ref = useRef<HTMLLIElement>(null)
 
     const [{handlerId}, drop] = useDrop<

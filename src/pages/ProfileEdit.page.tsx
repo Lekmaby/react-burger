@@ -9,7 +9,6 @@ import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingInd
 import auth from "../utils/auth.ts";
 import {setError} from "../services/error.slice.ts";
 import style from './styles/Profile.module.css';
-import {AppDispatch} from "../store.ts";
 import {UserResponse} from "../types/userResponse.ts";
 import {User} from "../types/user.ts";
 
@@ -25,7 +24,7 @@ const userUpdateSchema = object({
 type UserUpdateForm = TypeOf<typeof userUpdateSchema>;
 
 const ProfileEditPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
     const [nameEdit, setNameEdit] = useState<boolean>(false);

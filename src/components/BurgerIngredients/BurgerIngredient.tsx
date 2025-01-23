@@ -6,7 +6,6 @@ import {addIngredient} from "../../services/burgerConstructor.slice.ts";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
 import {FC} from "react";
-import {AppDispatch} from "../../store.ts";
 
 type BurgerIngredientProps = {
     ingredient: Ingredient,
@@ -14,7 +13,7 @@ type BurgerIngredientProps = {
 };
 
 const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient, qty}) => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
     const [{isDragging}, drag] = useDrag(() => ({

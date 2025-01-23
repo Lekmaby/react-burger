@@ -79,11 +79,11 @@ const OrderInfo: FC = () => {
                 {order?.name ?? ''}
             </p>
 
-            <p className={'text text_type_main-small'}>
+            <div className={'text text_type_main-small'}>
                 {order?.status === 'done' && <p className={style.readyOrderNumber}>Выполнен</p>}
                 {order?.status === 'pending' && <p>В работе</p>}
                 {order?.status === 'created' && <p>Создан</p>}
-            </p>
+            </div>
 
             <div className="mb-10">
                 <div className={'text text_type_main-medium mb-6 mt-15'}>

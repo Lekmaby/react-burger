@@ -26,7 +26,7 @@ const FeedStat: FC = () => {
                     <p className="text text_type_main-medium mb-6">
                         Готовы:
                     </p>
-                    <div style={{display: "flex", gap: 8}}>
+                    <div className={style.FeedStatColumn}>
                         {done.map((chunk, index) => (
                             <div key={`done-column-${index}`}>
                                 {chunk.map(order => (
@@ -41,7 +41,7 @@ const FeedStat: FC = () => {
                     <p className="text text_type_main-medium mb-6">
                         В&nbsp;работе:
                     </p>
-                    <div style={{display: "flex", gap: 8}}>
+                    <div className={style.FeedStatColumn}>
                         {pending.map((chunk, index) => (
                             <div key={`pending-column-${index}`}>
                                 {chunk.map(order => (

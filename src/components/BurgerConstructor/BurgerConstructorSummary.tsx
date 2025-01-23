@@ -8,10 +8,9 @@ import {Ingredient} from "../../types/ingredient.ts";
 import AppLoadingIndicator from "../AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {setError} from "../../services/error.slice.ts";
 import {useLocation, useNavigate} from "react-router-dom";
-import {AppDispatch} from "../../store.ts";
 
 const BurgerConstructorSummary: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const [addOrder, {isLoading}] = useAddOrderMutation();
