@@ -2,7 +2,7 @@ import {createAction, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {Order} from "../types/order.ts";
 import {WebsocketStatus} from "../enum/WebsocketStatus.enum.ts";
 
-interface ProfileFeedState {
+export interface ProfileFeedState {
     status: WebsocketStatus;
     orders: Order[];
     connectionError: string | null;
@@ -10,7 +10,7 @@ interface ProfileFeedState {
     totalToday: number | null;
 }
 
-const initialState: ProfileFeedState = {
+export const initialState: ProfileFeedState = {
     status: WebsocketStatus.OFFLINE,
     orders: [],
     connectionError: null,

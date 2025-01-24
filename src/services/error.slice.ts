@@ -4,11 +4,11 @@ import {orderApi} from "./orders.api.ts";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {ingredientApi} from "./ingredient.api.ts";
 
-interface ErrorState {
+export interface ErrorState {
     error: string | null
 }
 
-const initialState: ErrorState = {
+export const initialState: ErrorState = {
     error: null
 }
 
@@ -37,6 +37,7 @@ export const errorSlice = createSlice({
         builder.addMatcher(
             ingredientApi.endpoints.getIngredients.matchRejected,
             (state: ErrorState, action) => {
+                console.log('getIngredients.matchRejected', action);
                 errorSlice.caseReducers.setQueryError(state, action);
             }
         )

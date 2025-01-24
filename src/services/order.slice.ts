@@ -3,12 +3,12 @@ import {createSlice} from '@reduxjs/toolkit'
 import {Order} from "../types/order.ts";
 import {orderApi} from "./orders.api.ts";
 
-interface OrderState {
+export interface OrderState {
     opened: boolean,
     order: Order | null
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
     opened: false,
     order: null
 }

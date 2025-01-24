@@ -5,12 +5,12 @@ import {v4 as uuidv4} from 'uuid';
 import {orderApi} from "./orders.api.ts";
 import {IngredientTypeEnum} from "../enum/ingredient-type.enum.ts";
 
-interface BurgerConstructorState {
+export interface BurgerConstructorState {
     bun: Ingredient | null,
     ingredients: Ingredient[]
 }
 
-const initialState: BurgerConstructorState = {
+export const initialState: BurgerConstructorState = {
     bun: null,
     ingredients: [],
 }
