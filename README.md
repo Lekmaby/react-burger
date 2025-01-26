@@ -1,5 +1,7 @@
 # React Burger
 
+DEMO: [React Burger](https://lekmaby.nomorepartiesco.ru/)
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
