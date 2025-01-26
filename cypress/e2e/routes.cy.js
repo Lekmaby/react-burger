@@ -35,6 +35,7 @@ describe('app works correctly with routes', function () {
 
     it('should open Profile page', function () {
         window.localStorage.setItem('accessToken', 'test-accessToken');
+        cy.wait(300);
         cy.visit('/profile/edit');
         cy.contains('Профиль');
         cy.get('input[name="name"]').should('have.value', 'TestName');

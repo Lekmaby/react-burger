@@ -47,9 +47,13 @@ describe('app drag works correctly', function () {
         cy.get('@ingredientItem1').trigger('dragstart')
         cy.get('[data-cy="burger-constructor"]').trigger('drop');
 
+        cy.wait(100);
+        
         cy.get('@ingredientItem2').trigger('dragstart')
         cy.get('[data-cy="burger-constructor"]').trigger('drop');
 
+        cy.wait(100);
+        
         // Проверяем, что они добавились
         cy.get('[data-cy="burger-constructor"] li[draggable="true"]').first().should('exist').as('ingredient1');
         cy.get('[data-cy="burger-constructor"] li[draggable="true"]').last().should('exist').as('ingredient2');
@@ -69,10 +73,12 @@ describe('app drag works correctly', function () {
                     .scrollIntoView()
                     .trigger('dragover');
 
-                cy.wait(300);
+                cy.wait(500);
 
                 cy.get('@ingredient1')
                     .trigger('drop');
+
+                cy.wait(100);
 
                 // Проверяем, что их индексы поменялись
                 cy.get('@ingredient1').then(($ingredient1After) => {
