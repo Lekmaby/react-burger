@@ -56,6 +56,7 @@ const BurgerConstructorSummary: FC = () => {
                 size="large"
                 onClick={createOrderHandler}
                 disabled={isLoading}
+                data-cy="order-create"
             >
                 {!isLoading && 'Оформить заказ'}
 
