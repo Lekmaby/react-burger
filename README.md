@@ -1,6 +1,12 @@
-# React Burger
+# Yandex Practicum - React Developer: Study Project
 
 DEMO: [React Burger](https://lekmaby.nomorepartiesco.ru/)
+
+This repository contains a study project developed during the Yandex Practicum React Developer course. The project demonstrates core concepts of React and related technologies, showcasing skills and knowledge acquired during the program.
+
+Course: [React-developer](https://practicum.yandex.ru/react/)
+
+## Template
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
