@@ -31,6 +31,7 @@ const BurgerConstructor: FC = () => {
                 ((canDrop && isOver) ? style.BurgerConstructorDragCanDrop : '') + ' ' +
                 ((canDrop && !isOver) ? style.BurgerConstructorDragIsOver : '')}
                 ref={drop}
+                data-cy="burger-constructor"
             >
                 <li className={style.BurgerConstructorLockedIngredient}>
                     {
@@ -48,7 +49,9 @@ const BurgerConstructor: FC = () => {
 
                 {
                     ingredients?.length > 0 ?
-                        <div className={style.BurgerConstructorMiddleIngredients}>
+                        <div className={style.BurgerConstructorMiddleIngredients}
+                             data-cy="burger-constructor-ingredients"
+                        >
                             {ingredients.map((ingredient: Ingredient, index: number) =>
                                 <BurgerConstructorIngredient
                                     key={ingredient._key}

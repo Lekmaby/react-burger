@@ -10,7 +10,6 @@ import {setError} from "../services/error.slice.ts";
 import {useNavigate} from "react-router-dom";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import style from './styles/Auth.module.css';
-import {AppDispatch} from "../store.ts";
 import {DefaultResponse} from "../types/defaultResponse.ts";
 
 const resetPasswordSchema = object({
@@ -23,7 +22,7 @@ const resetPasswordSchema = object({
 type ResetPasswordForm = TypeOf<typeof resetPasswordSchema>;
 
 const ResetPasswordPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [passwordShow, setPasswordShow] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

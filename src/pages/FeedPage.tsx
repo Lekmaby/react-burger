@@ -2,13 +2,12 @@ import {FC, useEffect} from "react";
 import FeedOrders from "../components/FeedOrders/FeedOrders.tsx";
 import FeedStat from "../components/FeedStat/FeedStat.tsx";
 import {useAppDispatch, useAppSelector} from "../hooks.ts";
-import {AppDispatch} from "../store.ts";
 import {getFeedOrders, getFeedWebsocketStatus, wsConnect, wsDisconnect} from "../services/feed.slice.ts";
 import config from "../utils/config.ts";
 import style from "./styles/Feed.module.css";
 
 const FeedPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const status = useAppSelector(getFeedWebsocketStatus);
     const orders = useAppSelector(getFeedOrders);
     const connect = () => dispatch(wsConnect(config.ws + '/orders/all'));

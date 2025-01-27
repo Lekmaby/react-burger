@@ -6,10 +6,9 @@ import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingInd
 import {logout} from "../services/user.thunk.ts";
 import classNames from "classnames";
 import style from './styles/Profile.module.css';
-import type {AppDispatch} from "../store.ts";
 
 const ProfilePage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     // const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const {pathname} = useLocation();

@@ -7,7 +7,7 @@ type ModalOverlayProps = {
 
 const ModalOverlay: FC<ModalOverlayProps> = ({onClose}) => {
     return (
-        <div className={style.ModalOverlay} onClick={onClose}>
+        <div className={style.ModalOverlay} onClick={onClose} data-cy="modal-overlay">
         </div>
     );
 }

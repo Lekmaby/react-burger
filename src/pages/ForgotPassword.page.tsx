@@ -10,7 +10,6 @@ import {setError} from "../services/error.slice.ts";
 import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator.tsx";
 import {useNavigate} from "react-router-dom";
 import style from "./styles/Auth.module.css";
-import type {AppDispatch} from "../store.ts";
 import {DefaultResponse} from "../types/defaultResponse.ts";
 
 const forgotPasswordSchema = object({
@@ -22,7 +21,7 @@ const forgotPasswordSchema = object({
 type ForgotPasswordForm = TypeOf<typeof forgotPasswordSchema>;
 
 const ForgotPasswordPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 

@@ -22,11 +22,10 @@ import IngredientPage from "../../pages/Ingredient.page.tsx";
 import ProtectedRoute, {UnAuthRoute} from "../ProtectedRoute.tsx";
 import {checkUserAuth} from "../../services/user.thunk.ts";
 import {FC, useEffect} from "react";
-import {AppDispatch} from "../../store.ts";
 import OrderInfo from "../OrderInfo/OrderInfo.tsx";
 
 const App: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const orderIsOpened: boolean = useAppSelector(getOrderIsOpened);
     const error: string | null = useAppSelector(getError);
     const location = useLocation();

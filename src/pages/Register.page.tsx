@@ -10,7 +10,6 @@ import {useAppDispatch} from "../hooks.ts";
 import {setIsAuthChecked, setUser} from "../services/user.slice.ts";
 import {setError} from "../services/error.slice.ts";
 import style from './styles/Auth.module.css';
-import {AppDispatch} from "../store.ts";
 import {RegisterResponse} from "../types/registerResponse.ts";
 
 const registerSchema = object({
@@ -26,7 +25,7 @@ const registerSchema = object({
 type RegisterForm = TypeOf<typeof registerSchema>;
 
 const RegisterPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const [passwordShow, setPasswordShow] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 

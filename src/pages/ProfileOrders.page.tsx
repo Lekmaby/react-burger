@@ -1,5 +1,4 @@
 import {FC, useEffect} from "react";
-import {AppDispatch} from "../store.ts";
 import {useAppDispatch, useAppSelector} from "../hooks.ts";
 import config from "../utils/config.ts";
 import {
@@ -11,7 +10,7 @@ import {
 import FeedOrders from "../components/FeedOrders/FeedOrders.tsx";
 
 const ProfileOrdersPage: FC = () => {
-    const dispatch: AppDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const status = useAppSelector(getProfileFeedWebsocketStatus);
     const orders = useAppSelector(getProfileFeedOrders);
     const connect = (token: string) => dispatch(wsProfileFeedConnect(config.ws + '/orders?token=' + token));

@@ -104,7 +104,7 @@ const BurgerIngredients: FC = () => {
                 Соберите бургер
             </p>
 
-            <div ref={tabRef} className={style.tabContainer + ' mb-10'}>
+            <div ref={tabRef} className={style.tabContainer + ' mb-10'} data-cy="ingredient-tabs">
                 {
                     tabs?.map((group: TabItem) =>
                         <Tab
@@ -120,7 +120,7 @@ const BurgerIngredients: FC = () => {
                 }
             </div>
 
-            <div className={style.listContainer} onScroll={scrollHandler}>
+            <div className={style.listContainer} onScroll={scrollHandler} data-cy="ingredient-list">
                 {
                     tabs?.map((tab: TabItem) =>
                         <BurgerCategory

@@ -3,12 +3,12 @@ import {createSlice} from '@reduxjs/toolkit'
 import {User} from "../types/user.ts";
 import {logout} from "./user.thunk.ts";
 
-interface UserState {
+export interface UserState {
     user: User | null;
     isAuthChecked: boolean;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
     user: null,
     isAuthChecked: false,
 }

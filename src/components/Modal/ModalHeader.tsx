@@ -13,7 +13,7 @@ const ModalHeader: FC<ModalHeaderProps> = ({children, onClose}) => {
             <div className={style.ModalHeaderTitle + ' text text_type_main-large'}>
                 {children}
             </div>
-            <div className={style.ModalHeaderClose}>
+            <div className={style.ModalHeaderClose} data-cy="modal-close">
                 <CloseIcon type="primary" onClick={onClose}/>
             </div>
         </div>

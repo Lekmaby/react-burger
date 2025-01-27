@@ -15,12 +15,14 @@ const AppLoadingIndicator: FC<AppLoaderProps> = ({loading = true, size = 30}) =>
 
     return (
         <section className={style.loaderWrapper}>
-            <div className={style.loader} style={{
-                width: size,
-                height: size,
-                borderWidth: spinnerWidth,
-                borderTopWidth: spinnerWidth
-            }}></div>
+            <div className={style.loader}
+                 data-testid="app-loader"
+                 style={{
+                     width: size,
+                     height: size,
+                     borderWidth: spinnerWidth,
+                     borderTopWidth: spinnerWidth
+                 }}></div>
         </section>
     );
 }

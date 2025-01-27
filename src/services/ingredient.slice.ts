@@ -3,12 +3,12 @@ import {createSlice} from '@reduxjs/toolkit'
 import {Ingredient} from "../types/ingredient.ts";
 import {ingredientApi} from "./ingredient.api.ts";
 
-interface IngredientState {
+export interface IngredientState {
     loaded: boolean,
     ingredient: Record<string, Ingredient>
 }
 
-const initialState: IngredientState = {
+export const initialState: IngredientState = {
     loaded: false,
     ingredient: {}
 }
